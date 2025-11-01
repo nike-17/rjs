@@ -1,0 +1,350 @@
+---
+title: Справочник API
+slug: /api
+---
+
+# Справочник API Russian JS Transpiler
+
+В этом разделе представлено полное описание API Russian JS Transpiler.
+
+## Основные функции
+
+### `transpile(code, options)`
+
+Транспилирует код из Russian JS в стандартный JavaScript.
+
+**Параметры:**
+
+- `code` (строка) - Исходный код на Russian JS
+- `options` (объект, опционально) - Настройки транспиляции
+  - `preserveVariableNames` (булево) - Сохранять русские имена переменных (по умолчанию: `false`)
+  - `sourceMaps` (булево) - Генерировать source maps (по умолчанию: `false`)
+  - `filename` (строка) - Имя файла для сообщений об ошибках (по умолчанию: `"<unknown>"`)
+  - `target` (строка) - Целевая версия JavaScript (по умолчанию: `"es2020"`)
+
+**Возвращает:**
+
+Объект со следующими свойствами:
+- `code` (строка) - Транспилированный JavaScript код
+- `map` (объект) - Source map (если включено)
+- `ast` (объект) - Абстрактное синтаксическое дерево
+
+**Пример:**
+
+```javascript
+const { transpile } = require('russian-js-transpiler');
+
+const result = transpile('переменная привет = "Мир";');
+console.log(result.code); // var privet = "Мир";
+```
+
+## CLI
+
+### `rjs compile [input] [options]`
+
+Компилирует файл или каталог с Russian JS кодом.
+
+**Параметры:**
+
+- `-o, --output <dir>` - Выходной каталог (по умолчанию: текущий каталог)
+- `-w, --watch` - Наблюдать за изменениями файлов
+- `-m, --minify` - Минифицировать выходной код
+- `-s, --source-maps` - Генерировать source maps
+- `-c, --config <path>` - Путь к конфигурационному файлу
+- `-v, --version` - Вывести версию
+- `-h, --help` - Показать справку
+
+**Примеры:**
+
+```bash
+# Компиляция одного файла
+rjs compile app.ржс -o dist/
+
+# Компиляция каталога
+rjs compile src/ -o dist/
+
+# Наблюдение за изменениями
+rjs compile src/ -o dist/ -w
+```
+
+### `rjs run <file>`
+
+Выполняет Russian JS файл напрямую.
+
+**Параметры:**
+
+- `-r, --require <module>` - Предварительная загрузка модуля
+- `-h, --help` - Показать справку
+
+**Пример:**
+
+```bash
+rjs run app.ржс
+```
+
+## Программный API
+
+### `createCompiler(options)`
+
+Создает экземпляр компилятора с указанными настройками.
+
+**Параметры:**
+
+- `options` (объект) - Настройки компилятора
+  - `preserveVariableNames` (булево) - Сохранять русские имена переменных
+  - `sourceMaps` (булево) - Генерировать source maps
+  - `target` (строка) - Целевая версия JavaScript
+
+**Возвращает:**
+
+Экземпляр компилятора.
+
+**Пример:**
+
+```javascript
+const { createCompiler } = require('russian-js-transpiler/compiler');
+
+const compiler = createCompiler({
+  preserveVariableNames: true,
+  target: 'es2020'
+});
+
+const result = compiler.transpile('переменная привет = "Мир";');
+console.log(result.code); // переменная привет = "Мир";
+```
+
+### `Compiler`
+
+Класс компилятора Russian JS.
+
+#### `compileFile(filename, options)`
+
+Компилирует файл.
+
+**Параметры:**
+
+- `filename` (строка) - Путь к файлу
+- `options` (объект) - Дополнительные опции
+
+**Возвращает:**
+
+Promise, который разрешается в объект с результатом компиляции.
+
+#### `compileFiles(files, options)`
+
+Компилирует несколько файлов.
+
+**Параметры:**
+
+- `files` (массив строк) - Массив путей к файлам
+- `options` (объект) - Дополнительные опции
+
+**Возвращает:**
+
+Promise, который разрешается в массив результатов компиляции.
+
+## Плагины
+
+Russian JS поддерживает систему плагинов для расширения функциональности.
+
+### Создание плагина
+
+```javascript
+// my-plugin.js
+module.exports = function myPlugin() {
+  return {
+    name: 'my-plugin',
+    visitor: {
+      // Обработчик для узлов AST
+      Identifier(path) {
+        // Преобразование идентификаторов
+        if (path.node.name === 'стараяПеременная') {
+          path.node.name = 'новаяПеременная';
+        }
+      },
+      // Другие обработчики...
+    }
+  };
+};
+```
+
+### Использование плагина
+
+```javascript
+const { transpile } = require('russian-js-transpiler');
+const myPlugin = require('./my-plugin');
+
+const result = transpile('переменная стараяПеременная = 42;', {
+  plugins: [myPlugin]
+});
+
+console.log(result.code); // var novayaPeremennaya = 42;
+```
+
+## Интеграция с инструментами сборки
+
+### Webpack
+
+```javascript
+// webpack.config.js
+const rjsLoader = require('rjs/loader');
+
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.ржс$/,
+        use: [
+          {
+            loader: 'rjs/loader',
+            options: {
+              // опции загрузчика
+            }
+          }
+        ]
+      }
+    ]
+  }
+};
+```
+
+### Rollup
+
+```javascript
+// rollup.config.js
+import rjs from 'rollup-plugin-rjs';
+
+export default {
+  // ...
+  plugins: [
+    rjs({
+      // опции плагина
+    })
+  ]
+};
+```
+
+## Обработка ошибок
+
+Russian JS генерирует информативные сообщения об ошибках с указанием местоположения в исходном коде.
+
+```javascript
+const { transpile } = require('russian-js-transpiler');
+
+try {
+  const result = transpile('переменная x = ;');
+} catch (error) {
+  console.error(error.message);
+  console.error(`Ошибка в строке ${error.loc.line}, столбец ${error.loc.column}`);
+  console.error(error.codeFrame);
+}
+```
+
+## Типы TypeScript
+
+Russian JS предоставляет типы TypeScript для лучшей поддержки в IDE.
+
+```typescript
+import { transpile, TranspileOptions, TranspileResult } from 'russian-js-transpiler';
+
+const options: TranspileOptions = {
+  preserveVariableNames: true,
+  sourceMaps: true
+};
+
+const result: TranspileResult = transpile('переменная x = 10;', options);
+```
+
+## Расширенные возможности
+
+### Пользовательские преобразования
+
+Вы можете определить собственные преобразования AST:
+
+```javascript
+const { transform } = require('russian-js-transpiler');
+
+const code = 'переменная x = 10;';
+
+const result = transform(code, {
+  plugins: [
+    // Плагин для преобразования всех числовых литералов в строки
+    function stringifyNumbers() {
+      return {
+        visitor: {
+          NumericLiteral(path) {
+            path.replaceWith({
+              type: 'StringLiteral',
+              value: String(path.node.value)
+            });
+          }
+        }
+      };
+    }
+  ]
+});
+
+console.log(result.code); // var x = "10";
+```
+
+### Генерация кода
+
+Вы можете генерировать код из AST:
+
+```javascript
+const { generate } = require('russian-js-transpiler/generator');
+const { parse } = require('russian-js-transpiler/parser');
+
+const ast = parse('переменная x = 10;');
+const { code } = generate(ast);
+
+console.log(code); // var x = 10;
+```
+
+## Совместимость
+
+Russian JS совместим со следующими версиями Node.js и браузеров:
+
+- Node.js: 14.x, 16.x, 18.x
+- Chrome: последние 2 версии
+- Firefox: последние 2 версии
+- Safari: последние 2 версии
+- Edge: последние 2 версии
+
+## Миграция с предыдущих версий
+
+### С версии 1.x на 2.0
+
+1. Обновите зависимости:
+   ```bash
+   npm install russian-js-transpiler@latest
+   ```
+
+2. Обновите конфигурацию:
+   - Замените `preserveIdentifiers` на `preserveVariableNames`
+   - Обновите целевую версию JavaScript в `target`
+
+3. Проверьте совместимость API:
+   - Некоторые методы API были переименованы
+   - Улучшена обработка ошибок
+
+## Отладка
+
+Для отладки транспиляции используйте переменную окружения `DEBUG`:
+
+```bash
+DEBUG=rjs:* rjs compile input.ржс -o output.js
+```
+
+Или программно:
+
+```javascript
+process.env.DEBUG = 'rjs:*';
+const { transpile } = require('russian-js-transpiler');
+// ...
+```
+
+## Лицензия
+
+Russian JS Transpiler распространяется под лицензией MIT. См. файл [LICENSE](https://github.com/nike-17/rjs/blob/main/LICENSE) для получения дополнительной информации.

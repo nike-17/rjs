@@ -23,4 +23,6 @@ jobs:
           publish_dir: docs/.vitepress/dist
           keep_files: false
           force_orphan: true
-          cname: your-domain.com  # Remove or replace with your domain
+          # The site will be available at https://nike-17.github.io/rjs/
+          # If you have a custom domain, uncomment and set it below:
+          # cname: your-domain.com

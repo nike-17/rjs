@@ -24,7 +24,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          # Ensure all type definitions are installed
+          npm install --no-save @types/node @types/jest
         
       - name: Build
         run: npm run build

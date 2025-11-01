@@ -8,33 +8,30 @@ export class Parser {
     this.tokens = tokens;
   }
 
-  private isAtEnd(): boolean {
-    return this.current >= this.tokens.length;
-  }
-  
-  private synchronize(): void {
-    this.advance();
-    
-    while (!this.isAtEnd()) {
-      if (this.previous().type === ';') return;
-      
-      switch (this.peek().type) {
-        case 'KEYWORD':
-          if (['function', 'let', 'const', 'if', 'while', 'for', 'return'].includes(this.peek().value)) {
-            return;
-          }
-          break;
-      }
-      
-      this.advance();
+  public parse(): AstNode {
+    try {
+      return this.program();
+    } catch (error) {
+      console.error('Parsing error:', error);
+      throw error;
     }
   }
 
+  private isAtEnd(): boolean {
+    return this.current >= this.tokens.length;
+  }
+
   private peek(): Token {
+    if (this.isAtEnd()) {
+      throw new Error('Unexpected end of input');
+    }
     return this.tokens[this.current];
   }
 
   private previous(): Token {
+    if (this.current <= 0) {
+      throw new Error('No previous token');
+    }
     return this.tokens[this.current - 1];
   }
 
@@ -48,31 +45,13 @@ export class Parser {
     return this.peek().type === type;
   }
 
-  private match(type: string, ...values: string[]): boolean {
-    if (this.isAtEnd()) return false;
-    
-    const token = this.peek();
-    
-    // If no values provided, just check the type
-    if (values.length === 0) {
-      if (token.type === type) {
+  private match(...types: string[]): boolean {
+    for (const type of types) {
+      if (this.check(type)) {
         this.advance();
         return true;
       }
-      return false;
     }
-    
-    // Check if the current token matches the type and one of the values
-    if (token.type === type) {
-      const currentValue = token.value;
-      for (const value of values) {
-        if (currentValue === value) {
-          this.advance();
-          return true;
-        }
-      }
-    }
-    
     return false;
   }
 
@@ -81,25 +60,40 @@ export class Parser {
     throw new Error(`${message} at line ${this.peek().line}, column ${this.peek().column}`);
   }
 
-  public parse(): AstNode[] {
+  private synchronize(): void {
+    this.advance();
+    
+    while (!this.isAtEnd()) {
+      if (this.previous().type === ';') return;
+      
+      switch (this.peek().type) {
+        case 'FUNCTION':
+        case 'VAR':
+        case 'FOR':
+        case 'IF':
+        case 'WHILE':
+        case 'PRINT':
+        case 'RETURN':
+          return;
+      }
+      
+      this.advance();
+    }
+  }
+
+  // Grammar rules
+  private program(): AstNode {
     const statements: AstNode[] = [];
     while (!this.isAtEnd()) {
       statements.push(this.declaration());
     }
-    return statements;
+    return { type: 'Program', body: statements };
   }
 
   private declaration(): AstNode {
     try {
-      // Check for Russian or English variable declarations
-      if (this.match('KEYWORD', 'let', 'const', 'var', 'переменная', 'константа')) {
-        return this.variableDeclaration();
-      }
-      // Check for Russian or English function declarations
-      if (this.match('KEYWORD', 'function', 'функция')) {
-        return this.functionDeclaration();
-      }
-      // For other cases, try to parse as a statement
+      if (this.match('VAR', 'LET')) return this.varDeclaration();
+      if (this.match('FUNCTION')) return this.functionDeclaration();
       return this.statement();
     } catch (error) {
       this.synchronize();
@@ -107,197 +101,119 @@ export class Parser {
     }
   }
 
-  private variableDeclaration(): AstNode {
-    const token = this.previous();
-    const isConst = token.value === 'const' || token.value === 'константа';
-    const isLet = token.value === 'let' || token.value === 'переменная';
+  private varDeclaration(): AstNode {
+    const name = this.consume('IDENTIFIER', 'Expect variable name').value;
+    let initializer: AstNode | null = null;
     
-    if (!isConst && !isLet) {
-      throw new Error('Expected variable or constant declaration');
+    if (this.match('EQUALS')) {
+      initializer = this.expression();
     }
     
-    const declarations = [];
+    this.consume('SEMICOLON', 'Expect \';\' after variable declaration');
     
-    do {
-      // Handle the case where the next token is an identifier
-      if (this.check('IDENTIFIER')) {
-        const name = this.advance().value;
-        let initializer: AstNode | null = null;
-
-        if (this.match('=')) {
-          initializer = this.expression();
-        }
-        
-        declarations.push({
-          type: 'VariableDeclarator',
-          id: { type: 'Identifier', name },
-          init: initializer
-        });
-      } else {
-        // If it's not an identifier, try to parse it as an expression
-        const expr = this.expression();
-        if (expr.type === 'Identifier') {
-          declarations.push({
-            type: 'VariableDeclarator',
-            id: expr,
-            init: null
-          });
-        } else {
-          throw new Error(`Expected variable name but got ${expr.type}`);
-        }
-      }
-    } while (this.match(','));
+    const declaration: any = {
+      type: 'VariableDeclarator',
+      id: { type: 'Identifier', name },
+    };
     
-    // Only consume semicolon if it's there, but don't require it for the last statement
-    if (!this.check('}') && !this.isAtEnd()) {
-      this.consume(';', 'Expected \';\' after variable declaration');
+    if (initializer) {
+      declaration.init = initializer;
     }
     
     return {
       type: 'VariableDeclaration',
-      kind: isConst ? 'const' : 'let',
-      declarations
+      kind: 'let',
+      declarations: [declaration]
     };
   }
 
   private functionDeclaration(): AstNode {
-    const name = this.consume('IDENTIFIER', 'Expected function name').value;
-    this.consume('(', 'Expected \'(\' after function name');
+    const nameToken = this.consume('IDENTIFIER', 'Expect function name');
+    this.consume('LEFT_PAREN', 'Expect \'(\' after function name');
     
-    const params: AstNode[] = [];
-    if (!this.check(')')) {
+    const params: { type: string; name: string }[] = [];
+    if (!this.check('RIGHT_PAREN')) {
       do {
         if (params.length >= 255) {
           throw new Error('Cannot have more than 255 parameters');
         }
+        const paramName = this.consume('IDENTIFIER', 'Expect parameter name').value;
         params.push({
           type: 'Identifier',
-          name: this.consume('IDENTIFIER', 'Expected parameter name').value
+          name: paramName
         });
-      } while (this.match(','));
+      } while (this.match('COMMA'));
     }
     
-    this.consume(')', 'Expected \')\' after parameters');
-    this.consume('{', 'Expected \'{\'');
+    this.consume('RIGHT_PAREN', 'Expect \')\' after parameters');
     
-    const body: AstNode[] = [];
-    while (!this.check('}') && !this.isAtEnd()) {
+    // Parse function body
+    this.consume('LEFT_BRACE', 'Expect \'{\' before function body');
+    const body = [];
+    while (!this.check('RIGHT_BRACE') && !this.isAtEnd()) {
       body.push(this.declaration());
     }
-    
-    this.consume('}', 'Expected \'}\' after function body');
+    this.consume('RIGHT_BRACE', 'Expect \'}\' after function body');
     
     return {
       type: 'FunctionDeclaration',
-      id: { type: 'Identifier', name },
+      id: {
+        type: 'Identifier',
+        name: nameToken.value
+      },
       params,
       body: {
         type: 'BlockStatement',
-        body
+        body: body
       },
       generator: false,
+      expression: false,
       async: false
     };
   }
 
   private statement(): AstNode {
-    if (this.match('KEYWORD', 'if') || this.peek().value === 'если') return this.ifStatement();
-    if (this.match('KEYWORD', 'for') || this.peek().value === 'для') return this.forStatement();
-    if (this.match('KEYWORD', 'while') || this.peek().value === 'пока') return this.whileStatement();
-    if (this.match('KEYWORD', 'return') || this.peek().value === 'вернуть') return this.returnStatement();
-    if (this.match('{')) return this.blockStatement();
+    if (this.match('IF')) return this.ifStatement();
+    if (this.match('WHILE')) return this.whileStatement();
+    if (this.match('FOR')) return this.forStatement();
+    if (this.match('RETURN')) return this.returnStatement();
+    if (this.match('PRINT')) return this.printStatement();
+    if (this.match('LEFT_BRACE')) return { type: 'BlockStatement', body: this.block() };
     
-    // Handle Russian variable declarations
-    if (this.match('KEYWORD', 'переменная') || this.match('KEYWORD', 'константа')) {
-      return this.variableDeclaration();
-    }
-    
+    // Default to expression statement if no other statement type matches
     return this.expressionStatement();
   }
 
   private ifStatement(): AstNode {
-    console.log('Starting ifStatement');
-    
-    // Consume the 'if' or 'если' token if it's still there
-    if (this.match('KEYWORD', 'if') || this.match('KEYWORD', 'если')) {
-      console.log('Found if/если keyword');
-    }
-    
-    console.log('Before consuming ( - current token:', this.peek());
-    // Consume the opening parenthesis
-    this.consume('(', 'Expected "(" after "if"');
-    console.log('After consuming ( - current token:', this.peek());
-    
-    // Parse the test condition
-    console.log('Before parsing expression - current token:', this.peek());
+    this.consume('LEFT_PAREN', 'Expect \'(\' after \'if\'');
     const test = this.expression();
-    console.log('After parsing expression - current token:', this.peek());
+    this.consume('RIGHT_PAREN', 'Expect \')\' after if condition');
     
-    console.log('Before consuming ) - current token:', this.peek());
-    // Consume the closing parenthesis
-    this.consume(')', 'Expected ")" after if condition');
-    console.log('After consuming ) - current token:', this.peek());
-    
-    // Parse the consequent (the 'then' part)
-    console.log('Before parsing consequent - current token:', this.peek());
+    // Parse the consequent (must be a statement)
     const consequent = this.statement();
-    console.log('After parsing consequent - current token:', this.peek());
     
-    // Check for an 'else' clause
-    let alternate = null;
-    if (this.match('KEYWORD', 'else') || this.match('KEYWORD', 'иначе')) {
-      console.log('Found else/иначе clause');
+    // Parse the else clause if it exists
+    let alternate: AstNode | null = null;
+    if (this.match('ELSE')) {
       alternate = this.statement();
     }
     
-    console.log('Returning IfStatement');
     return {
       type: 'IfStatement',
       test,
-      consequent,
-      alternate
-    };
-  }
-
-  private forStatement(): AstNode {
-    this.consume('(', 'Expected \'(\' after \'for\'');
-    
-    let init;
-    if (this.match(';')) {
-      init = null;
-    } else if (this.match('KEYWORD', 'let', 'const')) {
-      init = this.variableDeclaration();
-    } else {
-      init = this.expressionStatement();
-    }
-    
-    let test = null;
-    if (!this.check(';')) {
-      test = this.expression();
-    }
-    this.consume(';', 'Expected \';\' after loop condition');
-    
-    let update = null;
-    if (!this.check(')')) {
-      update = this.expression();
-    }
-    this.consume(')', 'Expected \')\' after for clauses');
-    
-    const body = this.statement();
-    
-    return {
-      type: 'ForStatement',
-      init,
-      test,
-      update,
-      body
+      consequent: consequent.type === 'BlockStatement' 
+        ? consequent 
+        : { type: 'BlockStatement', body: [consequent] },
+      alternate: alternate ? (alternate.type === 'BlockStatement' 
+        ? alternate 
+        : { type: 'BlockStatement', body: [alternate] }) : null
     };
   }
 
   private whileStatement(): AstNode {
-    this.consume('(', 'Expected \'(\' after \'while\'');
+    this.consume('LEFT_PAREN', 'Expect \'(\' after \'while\'');
     const test = this.expression();
-    this.consume(')', 'Expected \')\' after while condition');
+    this.consume('RIGHT_PAREN', 'Expect \')\' after while condition');
     
     const body = this.statement();
     
@@ -308,62 +224,136 @@ export class Parser {
     };
   }
 
-  private returnStatement(): AstNode {
-    const argument = !this.check(';') ? this.expression() : null;
-    this.consume(';', 'Expected \';\' after return value');
+  private forStatement(): AstNode {
+    this.consume('LEFT_PAREN', 'Expect \'(\' after \'for\'');
     
-    return {
-      type: 'ReturnStatement',
-      argument
+    let init: AstNode | null = null;
+    if (!this.match('SEMICOLON')) {
+      if (this.match('VAR')) {
+        init = this.varDeclaration();
+      } else {
+        init = this.expressionStatement();
+      }
+    }
+    
+    let test: AstNode | null = null;
+    if (!this.check('SEMICOLON')) {
+      test = this.expression();
+    }
+    this.consume('SEMICOLON', 'Expect \';\' after loop condition');
+    
+    let update: AstNode | null = null;
+    if (!this.check('RIGHT_PAREN')) {
+      update = this.expression();
+    }
+    this.consume('RIGHT_PAREN', 'Expect \')\' after for clauses');
+    
+    let body = this.statement();
+    
+    // Desugar for loop to while loop
+    if (test === null) test = { type: 'Literal', value: true };
+    
+    if (update !== null) {
+      body = {
+        type: 'BlockStatement',
+        body: [body, update]
+      };
+    }
+    
+    body = {
+      type: 'WhileStatement',
+      test,
+      body
+    };
+    
+    if (init !== null) {
+      body = {
+        type: 'BlockStatement',
+        body: [init, body]
+      };
+    }
+    
+    return body;
+  }
+
+  private returnStatement(): AstNode {
+    const keyword = this.previous();
+    let value: AstNode | null = null;
+    
+    if (!this.check('SEMICOLON')) {
+      value = this.expression();
+    } else {
+      // If there's no semicolon, consume the next token
+      this.advance();
+    }
+    
+    // Only consume semicolon if we haven't already advanced past it
+    if (this.check('SEMICOLON')) {
+      this.consume('SEMICOLON', 'Expect \';\' after return value');
+    }
+    
+    return { 
+      type: 'ReturnStatement', 
+      argument: value // Change 'value' to 'argument' to match ESTree spec
     };
   }
 
-  private blockStatement(): AstNode {
-    const body: AstNode[] = [];
+  private printStatement(): AstNode {
+    const value = this.expression();
+    this.consume('SEMICOLON', 'Expect \';\' after value');
+    return { type: 'PrintStatement', value };
+  }
+
+  private block(): AstNode[] {
+    const statements: AstNode[] = [];
     
-    while (!this.check('}') && !this.isAtEnd()) {
-      body.push(this.declaration());
+    while (!this.check('RIGHT_BRACE') && !this.isAtEnd()) {
+      statements.push(this.declaration());
     }
     
-    this.consume('}', 'Expected \'}\' after block');
-    
-    return {
-      type: 'BlockStatement',
-      body
-    };
+    this.consume('RIGHT_BRACE', 'Expect \'}\' after block');
+    return statements;
   }
 
   private expressionStatement(): AstNode {
-    console.log('Starting expressionStatement, current token:', this.peek());
-    const expression = this.expression();
-    
-    // Only consume semicolon if it's not a block statement or if statement
-    if (!this.isAtEnd() && this.peek().type !== '}') {
-      this.consume(';', 'Expected \';\' after expression');
-    }
-    
-    console.log('Returning expression statement');
-    return {
-      type: 'ExpressionStatement',
-      expression
-    };
+    const expr = this.expression();
+    this.consume('SEMICOLON', 'Expect \';\' after expression');
+    return { type: 'ExpressionStatement', expression: expr };
   }
 
   private expression(): AstNode {
-    console.log('Starting expression, current token:', this.peek());
     return this.assignment();
   }
-  
-  // Helper method to handle binary operations with proper precedence
-  private binaryHelper(operatorFn: () => AstNode, ...operators: string[]): AstNode {
-    let expr = operatorFn();
+
+  private assignment(): AstNode {
+    const expr = this.or();
     
-    while (this.match(...operators)) {
-      const operator = this.previous().value;
-      const right = operatorFn();
+    if (this.match('EQUAL')) {
+      const value = this.assignment();
+      
+      if (expr.type === 'Variable') {
+        return {
+          type: 'Assignment',
+          name: expr.name,
+          value
+        };
+      }
+      
+      throw new Error('Invalid assignment target');
+    }
+    
+    return expr;
+  }
+
+  private or(): AstNode {
+    let expr = this.and();
+    
+    while (this.match('OR')) {
+      const operator = this.previous();
+      const right = this.and();
       expr = {
-        type: 'BinaryExpression',
-        operator,
+        type: 'LogicalExpression',
+        operator: operator.type,
         left: expr,
         right
       };
@@ -372,174 +362,81 @@ export class Parser {
     return expr;
   }
 
-  private assignment(): AstNode {
-    console.log('Starting assignment, current token:', this.peek());
-    const expr = this.equality();
+  private and(): AstNode {
+    let expr = this.equality();
     
-    if (this.match('=')) {
-      const equals = this.previous();
-      const value = this.assignment();
-      
-      if (expr.type === 'Identifier') {
-        return {
-          type: 'AssignmentExpression',
-          operator: '=',
-          left: expr,
-          right: value
-        };
-      }
-      
-      throw new Error(`Invalid assignment target at line ${equals.line}, column ${equals.column}`);
+    while (this.match('AND')) {
+      const operator = this.previous();
+      const right = this.equality();
+      expr = {
+        type: 'LogicalExpression',
+        operator: operator.type,
+        left: expr,
+        right
+      };
     }
     
     return expr;
   }
 
   private equality(): AstNode {
-    console.log('Starting equality, current token:', this.peek());
     return this.binaryHelper(
       () => this.comparison(),
-      '==', '!=', '===', '!=='
+      ['BANG_EQUAL', 'EQUAL_EQUAL', 'TRIPLE_EQUALS', 'NOT_EQUALS_STRICT']
     );
   }
 
   private comparison(): AstNode {
-    console.log('Starting comparison, current token:', this.peek());
     return this.binaryHelper(
       () => this.term(),
-      '>', '>=', '<', '<='
+      ['GREATER', 'GREATER_EQUAL', 'LESS', 'LESS_EQUAL']
     );
-  }
   }
 
   private term(): AstNode {
-    console.log('Starting term, current token:', this.peek());
     return this.binaryHelper(
       () => this.factor(),
-      '+', '-'
+      ['MINUS', 'PLUS']
     );
   }
 
   private factor(): AstNode {
-    console.log('Starting factor, current token:', this.peek());
     return this.binaryHelper(
       () => this.unary(),
-      '*', '/', '%'
+      ['SLASH', 'STAR']
     );
   }
 
   private unary(): AstNode {
-    if (this.match('!', '-')) {
-      const operator = this.previous().value;
+    if (this.match('BANG', 'MINUS')) {
+      const operator = this.previous();
       const right = this.unary();
       return {
         type: 'UnaryExpression',
-        operator,
-        argument: right,
-        prefix: true
+        operator: operator.type,
+        argument: right
       };
     }
     
-    return this.primary();
+    return this.call();
   }
 
-  private primary(): AstNode {
-    console.log('Starting primary, current token:', this.peek());
+  private call(): AstNode {
+    let expr = this.primary();
     
-    if (this.match('NUMBER')) {
-      const value = this.previous();
-      return {
-        type: 'Literal',
-        value: parseFloat(value.value),
-        raw: value.value
-      };
-    }
-
-    if (this.match('STRING')) {
-      const value = this.previous();
-      return {
-        type: 'Literal',
-        value: value.value.slice(1, -1), // Remove quotes
-        raw: value.value
-      };
-    }
-
-    if (this.match('IDENTIFIER')) {
-      const id = this.previous();
-      
-      // Handle Russian console.log
-      if (id.value === 'консоль') {
-        this.consume('.', 'Expected . after console');
-        const method = this.consume('IDENTIFIER', 'Expected method name after console.');
-        this.consume('(', 'Expected ( after console method');
-        
-        const args = [];
-        if (!this.check(')')) {
-          do {
-            // Use assignment() instead of expression() to handle all operators correctly
-            args.push(this.assignment());
-          } while (this.match(','));
-        }
-        this.consume(')', 'Expected ) after console.log arguments');
-        
-        return {
-          type: 'CallExpression',
-          callee: {
-            type: 'MemberExpression',
-            object: { type: 'Identifier', name: 'console' },
-            property: { type: 'Identifier', name: 'log' },
-            computed: false
-          },
-          arguments: args
-        };
-      }
-      
-      // Handle regular identifiers
-      let expr: AstNode = {
-        type: 'Identifier',
-        name: id.value
-      };
-      
-      return this.finishMemberExpression(expr);
-    }
-
-    if (this.match('(')) {
-      const expr = this.expression();
-      this.consume(')', 'Expected ")" after expression');
-      return expr;
-    }
-    
-    throw new Error(`Unexpected token: ${this.peek().value} at line ${this.peek().line}, column ${this.peek().column}`);
-  }
-  
-  private finishMemberExpression(expr: AstNode): AstNode {
     while (true) {
-      if (this.match('.')) {
-        // Handle dot notation: obj.prop
-        const property = this.consume('IDENTIFIER', 'Expected property name after .');
+      if (this.match('LEFT_PAREN')) {
+        expr = this.finishCall(expr);
+      } else if (this.match('DOT')) {
+        const name = this.consume('IDENTIFIER', 'Expect property name after \'.\'');
         expr = {
           type: 'MemberExpression',
           object: expr,
           property: {
             type: 'Identifier',
-            name: property.value
+            name: name.value
           },
           computed: false
-        };
-      } else if (this.match('(')) {
-        // Handle function calls: fn()
-        const args = [];
-        if (!this.check(')')) {
-          do {
-            args.push(this.expression());
-          } while (this.match(','));
-        }
-        this.consume(')', 'Expected ")" after arguments');
-        
-        expr = {
-          type: 'CallExpression',
-          callee: expr,
-          arguments: args
         };
       } else {
         break;
@@ -547,27 +444,65 @@ export class Parser {
     }
     
     return expr;
+  }
 
+  private finishCall(callee: AstNode): AstNode {
+    const args: AstNode[] = [];
+    
+    if (!this.check('RIGHT_PAREN')) {
+      do {
+        if (args.length >= 255) {
+          throw new Error('Cannot have more than 255 arguments');
+        }
+        args.push(this.expression());
+      } while (this.match('COMMA'));
+    }
+    
+    const paren = this.consume('RIGHT_PAREN', 'Expect \')\' after arguments');
+    
+    return {
+      type: 'CallExpression',
+      callee,
+      arguments: args
+    };
+  }
+
+  private primary(): AstNode {
+    if (this.match('FALSE')) return { type: 'Literal', value: false };
+    if (this.match('TRUE')) return { type: 'Literal', value: true };
+    if (this.match('NIL')) return { type: 'Literal', value: null };
+    
+    if (this.match('NUMBER', 'STRING')) {
+      return { type: 'Literal', value: this.previous().value };
+    }
+    
+    if (this.match('IDENTIFIER')) {
+      return { type: 'Variable', name: this.previous().value };
+    }
+    
+    if (this.match('LEFT_PAREN')) {
+      const expr = this.expression();
+      this.consume('RIGHT_PAREN', 'Expect \')\' after expression');
+      return { type: 'Grouping', expression: expr };
+    }
+    
     throw new Error(`Unexpected token: ${this.peek().value} at line ${this.peek().line}, column ${this.peek().column}`);
   }
 
-  private synchronize(): void {
-    this.advance();
-    while (!this.isAtEnd()) {
-      if (this.previous().value === ';') return;
-      
-      switch (this.peek().value) {
-        case 'function':
-        case 'let':
-        case 'const':
-        case 'if':
-        case 'for':
-        case 'while':
-        case 'return':
-          return;
-      }
-      
-      this.advance();
+  private binaryHelper(operand: () => AstNode, operators: string[]): AstNode {
+    let expr = operand();
+    
+    while (this.match(...operators)) {
+      const operator = this.previous();
+      const right = operand();
+      expr = {
+        type: 'BinaryExpression',
+        operator: operator.type,
+        left: expr,
+        right
+      };
     }
+    
+    return expr;
   }
 }

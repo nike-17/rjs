@@ -1,6 +1,16 @@
 import { Token, TokenMatcher } from './types';
 
 // Russian JavaScript keywords mapping to English
+  // Special identifiers that should be translated in the generator
+// These are kept as is in the lexer and translated in the generator
+const SPECIAL_IDENTIFIERS: Record<string, string> = {
+  'консоль': 'console',
+  'лог': 'log',
+  'ошибка': 'error',
+  'предупреждение': 'warn',
+  'информация': 'info'
+};
+
 const RUSSIAN_KEYWORDS: Record<string, string> = {
   'если': 'if',
   'иначе': 'else',
@@ -82,60 +92,58 @@ const JS_KEYWORDS: Record<string, string> = {
   'switch': 'switch',
   'case': 'case',
   'default': 'default',
-  'static': 'static',
   'async': 'async',
   'await': 'await',
   'yield': 'yield'
 };
 
-// Combined keywords
-const KEYWORDS = { ...RUSSIAN_KEYWORDS, ...JS_KEYWORDS };
+  // Combined keywords and special identifiers
+const KEYWORDS = { ...RUSSIAN_KEYWORDS, ...JS_KEYWORDS, ...SPECIAL_IDENTIFIERS };
 
 // Token matchers with regex patterns
 const TOKENS: TokenMatcher[] = [
   // Whitespace
   [/^\s+/, null],
-  // Comments
   [/^\/\*[\s\S]*?\*\//, null],
   [/^\/\/.*/, null],
   // Symbols and delimiters
-  [/^;/, ';'],
-  [/^{/, '{'],
-  [/^}/, '}'],
-  [/^\(/, '('],
-  [/^\)/, ')'],
-  [/^\[/, '['],
-  [/^\]/, ']'],
-  [/^,/, ','],
-  [/^\./, '.'],
-  [/^:/, ':'],
-  [/^\?/, '?'],
+  [/^;/, 'SEMICOLON'],
+  [/^{/, 'LEFT_BRACE'],
+  [/^}/, 'RIGHT_BRACE'],
+  [/^\(/, 'LEFT_PAREN'],
+  [/^\)/, 'RIGHT_PAREN'],
+  [/^\[/, 'LEFT_BRACKET'],
+  [/^\]/, 'RIGHT_BRACKET'],
+  [/^,/, 'COMMA'],
+  [/^\./, 'DOT'],
+  [/^:/, 'COLON'],
+  [/^\?/, 'QUESTION'],
   // Operators
-  [/^\+\+/, '++'],
-  [/^--/, '--'],
-  [/^\+/, '+'],
-  [/^-/, '-'],
-  [/^\*/, '*'],
-  [/^\/\//, '//'],
-  [/^\//, '/'],
-  [/^%/, '%'],
-  [/^===/, '==='],
-  [/^!==/, '!=='],
-  [/^==/, '=='],
-  [/^=/, '='],
-  [/^!+/, '!'],
-  [/^>+/, '>'],
-  [/^</, '<'],
-  [/^>=/, '>='],
-  [/^<=/, '<='],
-  [/^&&/, '&&'],
-  [/^\|\|/, '||'],
-  [/^\|\|\|/, '|||'],
-  [/^\|=/, '|='],
-  [/^&=/, '&='],
-  [/^\^=/, '^='],
-  [/^\?\?/, '??'],
-  [/^\?\?=/, '??='],
+  [/^\+\+/, 'PLUS_PLUS'],
+  [/^--/, 'MINUS_MINUS'],
+  [/^\+/, 'PLUS'],
+  [/^-/, 'MINUS'],
+  [/^\*/, 'STAR'],
+  [/^\/\//, 'DOUBLE_SLASH'],
+  [/^\//, 'SLASH'],
+  [/^%/, 'PERCENT'],
+  [/^===/, 'TRIPLE_EQUALS'],
+  [/^!==/, 'NOT_EQUALS_STRICT'],
+  [/^==/, 'DOUBLE_EQUALS'],
+  [/^=/, 'EQUALS'],
+  [/^!+/, 'BANG'],
+  [/^>+/, 'GREATER'],
+  [/^</, 'LESS'],
+  [/^>=/, 'GREATER_EQUALS'],
+  [/^<=/, 'LESS_EQUALS'],
+  [/^&&/, 'AND'],
+  [/^\|\|/, 'OR'],
+  [/^\|\|\|/, 'TRIPLE_OR'],
+  [/^\|=/, 'PIPE_EQUALS'],
+  [/^&=/, 'AMPERSAND_EQUALS'],
+  [/^\^=/, 'CARET_EQUALS'],
+  [/^\?\?/, 'DOUBLE_QUESTION'],
+  [/^\?\?=/, 'DOUBLE_QUESTION_EQUALS'],
   // Numbers
   [/^\d+\.\d+/, 'NUMBER'],
   [/^\d+/, 'NUMBER'],
@@ -210,12 +218,16 @@ export class Lexer {
         let tokenValue = value;
 
         if (type === 'IDENTIFIER') {
-          // Check if it's a Russian or English keyword
           const lowerValue = value.toLowerCase();
-          if (KEYWORDS[lowerValue]) {
-            type = 'KEYWORD';
-            tokenValue = KEYWORDS[lowerValue] || value; // Fallback to original value if not found
+          
+          // Check if it's a regular keyword (not a special identifier)
+          if (RUSSIAN_KEYWORDS[lowerValue] || JS_KEYWORDS[lowerValue]) {
+            const keyword = RUSSIAN_KEYWORDS[lowerValue] || JS_KEYWORDS[lowerValue];
+            type = keyword.toUpperCase();
+            tokenValue = keyword;
           }
+          // Special identifiers are kept as is in the lexer
+          // They'll be translated in the generator
         }
 
         tokens.push({

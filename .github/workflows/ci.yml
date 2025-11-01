@@ -25,9 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        
+      - name: Build
+        run: npm run build
 
       - name: Run tests
-        run: npx jest --coverage
+        run: npm test -- --coverage
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5

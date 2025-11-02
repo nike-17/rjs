@@ -47,7 +47,7 @@ jobs:
           npm ci --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
           
           # Install type definitions
-          npm install --no-save @types/node@latest @types/jest@latest
+          npm install --registry=https://registry.npmmirror.com --no-save @types/node@latest @types/jest@latest
         
       - name: Build
         run: npm run build

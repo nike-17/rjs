@@ -44,7 +44,7 @@ jobs:
           npm config set audit false
           
           # Install dependencies
-          npm ci --no-audit --no-fund --prefer-offline --no-package-lock
+          npm ci --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
           
           # Install type definitions
           npm install --no-save @types/node@latest @types/jest@latest

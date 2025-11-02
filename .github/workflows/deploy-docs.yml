@@ -22,7 +22,6 @@ jobs:
           
       - name: Install dependencies
         run: |
-          npm config set fund false
           npm config set audit false
           npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline
           

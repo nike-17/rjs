@@ -34,7 +34,11 @@ jobs:
           echo "npm ci completed."
           
       - name: Build docs
-        run: npm run docs:build
+        run: |
+          # Ensure the base URL is set correctly for GitHub Pages
+          npm run docs:build -- --base=/rjs/
+          # Verify the built files
+          ls -la docs/.vitepress/dist/
         
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4

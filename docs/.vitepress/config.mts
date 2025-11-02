@@ -4,6 +4,10 @@ export default defineConfig({
   title: 'Russian JS',
   description: 'Пишите JavaScript на русском',
   base: '/rjs/',
+  lang: 'ru-RU',
+  
+  // Ensure clean URLs
+  cleanUrls: true,
   
   themeConfig: {
     nav: [

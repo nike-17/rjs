@@ -33,12 +33,20 @@ jobs:
           npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
           echo "npm ci completed."
           
+      - name: Clean previous build
+        run: |
+          rm -rf docs/.vitepress/dist
+          
       - name: Build docs
         run: |
-          # Ensure the base URL is set correctly for GitHub Pages
-          npm run docs:build -- --base=/rjs/
+          # Build with the correct base URL
+          npm run docs:build
+          
           # Verify the built files
           ls -la docs/.vitepress/dist/
+          
+          # Check if assets are in the correct location
+          ls -la docs/.vitepress/dist/assets/
         
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4

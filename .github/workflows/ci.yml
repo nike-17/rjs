@@ -25,12 +25,7 @@ jobs:
           
       - name: Configure npm and install dependencies
         run: |
-          # Clear npm cache and reset any proxy settings
-          npm cache clean --force
-          npm config delete proxy
-          npm config delete https-proxy
-          npm config delete registry
-          npm config set registry https://registry.npmjs.org/
+        
           
           # Install specific npm version
           npm install -g npm@10.5.0
@@ -44,8 +39,10 @@ jobs:
           npm config set audit false
           
           # Install dependencies
+          echo "Running npm ci..."
           npm ci --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
-          
+          echo "npm ci completed."
+          echo "Install type definitions..."
           # Install type definitions
           npm install --registry=https://registry.npmmirror.com --no-save @types/node@latest @types/jest@latest
         

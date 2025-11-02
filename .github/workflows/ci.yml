@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'npm'
-          
+
       - name: Configure npm and install dependencies
         run: |
         
@@ -63,25 +63,32 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
-          
-      - name: Clear npm cache and verify installation
+
+      - name: Configure npm and install dependencies
         run: |
-          npm cache clean --force
+          
+          
+          # Install specific npm version
           npm install -g npm@10.5.0
+          
+          # Log versions for debugging
           node -v
           npm -v
           
-      - name: Install dependencies
-        run: |
+          # Configure npm
           npm config set fund false
           npm config set audit false
-          npm ci --prefer-offline --no-audit --no-fund
+          
+          # Install dependencies
+          echo "Running npm ci..."
+          npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
+          echo "npm ci completed."
       
       - name: Build
         run: npm run build

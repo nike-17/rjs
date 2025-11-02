@@ -1,0 +1,1 @@
+import{_ as i,c as a,o as n,ag as e}from"./chunks/framework.g5qWdQ24.js";const k=JSON.parse('{"title":"API","description":"","frontmatter":{},"headers":[],"relativePath":"api.md","filePath":"api.md"}'),l={name:"api.md"};function p(t,s,r,h,o,d){return n(),a("div",null,[...s[0]||(s[0]=[e("",25)])])}const u=i(l,[["render",p]]);export{k as __pageData,u as default};

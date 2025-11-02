@@ -1,6 +1,6 @@
 {
   "name": "russian-js-transpiler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A transpiler that converts Russian JavaScript-like code to standard JavaScript",
   "scripts": {
     "test": "jest",

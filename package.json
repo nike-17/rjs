@@ -40,9 +40,9 @@
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yourusername/russian-js-transpiler/issues"
+    "url": "https://github.com/nike-17/rjs/issues"
   },
-  "homepage": "https://github.com/yourusername/russian-js-transpiler#readme",
+  "homepage": "https://github.com/nike-17/rjs#readme",
   "engines": {
     "node": ">=14.0.0"
   },

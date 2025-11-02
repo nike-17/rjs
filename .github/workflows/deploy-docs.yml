@@ -17,8 +17,15 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Update npm to the latest version
-        run: npm install -g npm@latest # This is the key fix
-      - run: npm ci
+        run: npm install -g npm@10.5.0
+      - run: |
+          npm config set fund false
+          npm config set audit false
+          
+          # Install dependencies
+          echo "Running npm ci..."
+          npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
+          echo "npm ci completed."
       - run: npx vitepress --version
       - run: npm run docs:build
       - name: Deploy to GitHub Pages

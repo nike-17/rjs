@@ -69,11 +69,12 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+          # This will automatically set up the NPM_TOKEN for publishing
+          always-auth: true
 
       - name: Configure npm and install dependencies
         run: |
-          
-          
           # Install specific npm version
           npm install -g npm@10.5.0
           
@@ -85,15 +86,25 @@ jobs:
           npm config set fund false
           npm config set audit false
           
+          # Set registry to public npm
+          npm config set registry https://registry.npmjs.org/
+          
           # Install dependencies
-          echo "Running npm ci..."
-          npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
-          echo "npm ci completed."
+          echo "Installing dependencies..."
+          npm ci --no-audit --no-fund --prefer-offline
+          echo "Dependencies installed successfully."
       
       - name: Build
         run: npm run build
       
+      - name: Verify package
+        run: npm pack --dry-run
+      
       - name: Publish to npm
         run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Verify publish
+        run: |
+          npm view russian-js-transpiler version

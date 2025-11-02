@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/russian-js-transpiler.svg)](https://badge.fury.io/js/russian-js-transpiler)
 [![Build Status](https://github.com/nike-17/rjs/actions/workflows/ci.yml/badge.svg)](https://github.com/nike-17/rjs/actions)
-[![codecov](https://codecov.io/gh/yourusername/russian-js-transpiler/graph/badge.svg?token=YOUR_TOKEN)](https://codecov.io/gh/yourusername/russian-js-transpiler)
+[![codecov](https://codecov.io/gh/nike-17/russian-js-transpiler/graph/badge.svg?token=YOUR_TOKEN)](https://codecov.io/gh/yourusername/russian-js-transpiler)
 
 A powerful transpiler that converts Russian JavaScript-like code to standard JavaScript, making programming more accessible to Russian speakers.
 

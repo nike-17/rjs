@@ -76,23 +76,20 @@ jobs:
       - name: Configure npm and install dependencies
         run: |
           # Install specific npm version
-          npm install -g npm@10.5.0
+               npm install -g npm@10.5.0
           
           # Log versions for debugging
-          node -v
-          npm -v
+               node -v
+               npm -v
           
           # Configure npm
-          npm config set fund false
-          npm config set audit false
-          
-          # Set registry to public npm
-          npm config set registry https://registry.npmjs.org/
+               npm config set fund false
+               npm config set audit false
           
           # Install dependencies
-          echo "Installing dependencies..."
-          npm ci --no-audit --no-fund --prefer-offline
-          echo "Dependencies installed successfully."
+               echo "Running npm ci..."
+               npm ci --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline --no-package-lock
+               echo "npm ci completed."
       
       - name: Build
         run: npm run build

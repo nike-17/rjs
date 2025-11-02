@@ -22,8 +22,14 @@ jobs:
           
       - name: Install dependencies
         run: |
+          # Use a stable npm version
+          npm install -g npm@8.19.4
+          # Configure npm
           npm config set audit false
-          npm install --registry=https://registry.npmmirror.com --no-audit --no-fund --prefer-offline
+          npm config set fund false
+          npm config set update-notifier false
+          # Install project dependencies
+          npm ci --no-audit --no-fund --prefer-offline
           
       - name: Build docs
         run: npm run docs:build

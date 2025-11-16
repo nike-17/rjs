@@ -1,14 +1,23 @@
 import { Token, TokenMatcher } from './types';
 
 // Russian JavaScript keywords mapping to English
-  // Special identifiers that should be translated in the generator
+// Special identifiers that should be translated in the generator
 // These are kept as is in the lexer and translated in the generator
 const SPECIAL_IDENTIFIERS: Record<string, string> = {
   'консоль': 'console',
-  'лог': 'log',
-  'ошибка': 'error',
+  'начальник': 'boss',
+  'босс': 'boss', // Legacy support
+  'ряд': 'array',
+  'ряд': 'array',
+  'управляющий': 'admin',
+  'админ': 'admin', // Legacy support // Legacy support // Legacy support
   'предупреждение': 'warn',
-  'информация': 'info'
+  'информация': 'info',
+  'показать': 'show',
+  'сущность': 'object',
+  'объект': 'object', // Legacy support
+  'летопись': 'console',
+  'запись': 'log'
 };
 
 const RUSSIAN_KEYWORDS: Record<string, string> = {
@@ -16,7 +25,8 @@ const RUSSIAN_KEYWORDS: Record<string, string> = {
   'иначе': 'else',
   'для': 'for',
   'пока': 'while',
-  'функция': 'function',
+  'задача': 'function',
+  'функция': 'function', // Legacy support
   'вернуть': 'return',
   'константа': 'const',
   'переменная': 'let',

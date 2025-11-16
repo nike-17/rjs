@@ -28,6 +28,18 @@ A powerful transpiler that converts Russian JavaScript-like code to standard Jav
 // Multiple variables
 переменная x = 10, y = 20, z = 30;
 
+// Example with updated terminology
+если (пользователь.управляющий) {
+    показать("Привет, начальник!");
+} иначе {
+    вывести("Доступ запрещён");
+}
+
+// Functions are now called задачи
+задача привет(имя) {
+    вернуть `Привет, ${имя}!`;
+}
+
 // Destructuring
 переменная [первый, второй] = [1, 2];
 переменная { имя, возраст } = пользователь;

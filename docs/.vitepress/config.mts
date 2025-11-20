@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Russian JS',
   description: 'Пишите JavaScript на русском',
-  base: '/rjs/',
+  base: '/',
   lang: 'ru-RU',
   
   // Ensure clean URLs
@@ -11,11 +11,11 @@ export default defineConfig({
   
   themeConfig: {
     nav: [
-      { text: 'Начало работы', link: '/getting-started' },
+      { text: 'Начало работы', link: '/doc/getting-started' },
       { text: 'Документация', 
         items: [
-          { text: 'Синтаксис', link: '/syntax' },
-          { text: 'API', link: '/api' },
+          { text: 'Синтаксис', link: '/doc/syntax' },
+          { text: 'API', link: '/doc/api' },
         ]
       },
       { text: 'GitHub', link: 'https://github.com/nike-17/rjs' }
@@ -25,9 +25,9 @@ export default defineConfig({
       {
         text: 'Руководство',
         items: [
-          { text: 'Начало работы', link: '/getting-started' },
-          { text: 'Синтаксис', link: '/syntax' },
-          { text: 'API', link: '/api' }
+          { text: 'Начало работы', link: '/doc/getting-started' },
+          { text: 'Синтаксис', link: '/doc/syntax' },
+          { text: 'API', link: '/doc/api' }
         ]
       }
     ],
@@ -44,7 +44,7 @@ export default defineConfig({
     // Footer configuration
     footer: {
       message: 'Released under the MIT License.',
-      copyright: `Copyright © ${new Date().getFullYear()} Russian JS Transpiler`
+      copyright: `Copyright ${new Date().getFullYear()} Russian JS Transpiler`
     },
     
     // Search functionality
@@ -98,8 +98,11 @@ export default defineConfig({
         returnToTopLabel: 'Вернуться наверх',
         sidebarMenuLabel: 'Меню',
         darkModeSwitchLabel: 'Тема',
-        lightModeSwitchTitle: 'Переключить на светлую тему',
-        darkModeSwitchTitle: 'Переключить на темную тему'
+        lastUpdatedText: 'Последнее обновление',
+        editLink: {
+          pattern: 'https://github.com/nike-17/rjs/edit/main/docs/:path',
+          text: 'Редактировать эту страницу'
+        }
       }
     },
     en: {
@@ -127,13 +130,29 @@ export default defineConfig({
     open: true
   },
   
-  // Build configuration
-  build: {
-    outDir: '../dist',
-    emptyOutDir: true,
-    sourcemap: true,
-    minify: 'terser',
-    target: 'esnext',
-    cssCodeSplit: true
+  // Vite configuration
+  vite: {
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('../../src', import.meta.url)),
+        '@theme': fileURLToPath(new URL('./theme', import.meta.url))
+      }
+    },
+    publicDir: resolve(__dirname, '../../public'),
+    build: {
+      outDir: resolve(__dirname, '../../dist'),
+      emptyOutDir: false,
+      sourcemap: true,
+      minify: 'terser',
+      target: 'esnext',
+      cssCodeSplit: true
+    },
+    server: {
+      port: 3000,
+      open: true,
+      fs: {
+        allow: ['..']
+      }
+    }
   }
 })

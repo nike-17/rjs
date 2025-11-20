@@ -1,1 +1,0 @@
-import{_ as i,c as a,o as n,ag as l}from"./chunks/framework.g5qWdQ24.js";const c=JSON.parse('{"title":"Синтаксис","description":"","frontmatter":{},"headers":[],"relativePath":"syntax.md","filePath":"syntax.md"}'),p={name:"syntax.md"};function h(e,s,k,t,r,E){return n(),a("div",null,[...s[0]||(s[0]=[l("",11)])])}const g=i(p,[["render",h]]);export{c as __pageData,g as default};

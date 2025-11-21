@@ -26,8 +26,10 @@ jobs:
 
       - name: Build
         run: |
-          npm run build
+          NODE_ENV=production npm run docs:build
           # Create .nojekyll file in the dist directory
+          mkdir -p dist
+          cp -r docs/.vitepress/dist/* dist/
           touch dist/.nojekyll
 
       - name: Deploy to GitHub Pages

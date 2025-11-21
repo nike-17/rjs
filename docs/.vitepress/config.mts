@@ -1,9 +1,11 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  // Set the base URL for GitHub Pages
+  base: process.env.NODE_ENV === 'production' ? '/rjs/' : '/',
   title: 'Russian JS',
   description: 'Пишите JavaScript на русском',
-  base: '/',
   lang: 'ru-RU',
   
   // Ensure clean URLs

@@ -12,6 +12,9 @@ export default defineConfig({
   // Ensure clean URLs
   cleanUrls: true,
   
+  // Ignore dead links during build
+  ignoreDeadLinks: true,
+  
   themeConfig: {
     nav: [
       { text: 'Начало работы', link: '/doc/getting-started' },

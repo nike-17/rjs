@@ -17,14 +17,19 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          npm ci --legacy-peer-deps
+          npm list
 
       - name: Build
         run: |
-          npm run build
+          NODE_ENV=production npm run docs:build
           # Create .nojekyll file in the dist directory
+          mkdir -p dist
+          cp -r docs/.vitepress/dist/* dist/
           touch dist/.nojekyll
 
       - name: Deploy to GitHub Pages

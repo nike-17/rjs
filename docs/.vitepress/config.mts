@@ -136,7 +136,7 @@ export default defineConfig({
 
 
 
-  outDir: './dist',
+  outDir: resolve(__dirname, 'dist'),
 
   // Vite configuration
   vite: {

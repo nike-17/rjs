@@ -7,7 +7,7 @@ const __dirname = dirname(__filename)
 
 export default defineConfig({
   // Set the base URL for GitHub Pages
-  base: process.env.NODE_ENV === 'production' ? '/rjs/' : '/',
+  base: '/rjs/',
   title: 'Russian JS',
   description: 'Пишите JavaScript на русском',
   lang: 'ru-RU',

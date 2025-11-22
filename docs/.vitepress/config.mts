@@ -1,6 +1,9 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 export default defineConfig({
   // Set the base URL for GitHub Pages
@@ -8,17 +11,18 @@ export default defineConfig({
   title: 'Russian JS',
   description: 'Пишите JavaScript на русском',
   lang: 'ru-RU',
-  
+
   // Ensure clean URLs
   cleanUrls: true,
-  
+
   // Ignore dead links during build
   ignoreDeadLinks: true,
-  
+
   themeConfig: {
     nav: [
       { text: 'Начало работы', link: '/doc/getting-started' },
-      { text: 'Документация', 
+      {
+        text: 'Документация',
         items: [
           { text: 'Синтаксис', link: '/doc/syntax' },
           { text: 'API', link: '/doc/api' },
@@ -26,7 +30,7 @@ export default defineConfig({
       },
       { text: 'GitHub', link: 'https://github.com/nike-17/rjs' }
     ],
-    
+
     sidebar: [
       {
         text: 'Руководство',
@@ -37,22 +41,22 @@ export default defineConfig({
         ]
       }
     ],
-    
+
     // Social links in the footer
     socialLinks: [
-      { 
-        icon: 'github', 
+      {
+        icon: 'github',
         link: 'https://github.com/nike-17/rjs',
         ariaLabel: 'GitHub repository'
       }
     ],
-    
+
     // Footer configuration
     footer: {
       message: 'Released under the MIT License.',
       copyright: `Copyright ${new Date().getFullYear()} Russian JS Transpiler`
     },
-    
+
     // Search functionality
     search: {
       provider: 'local',
@@ -75,7 +79,7 @@ export default defineConfig({
       }
     }
   },
-  
+
   // Internationalization
   locales: {
     root: {
@@ -120,7 +124,7 @@ export default defineConfig({
       description: 'Write JavaScript in Russian'
     }
   },
-  
+
   // Markdown extensions
   markdown: {
     theme: {
@@ -129,13 +133,11 @@ export default defineConfig({
     },
     lineNumbers: true
   },
-  
-  // Development server options
-  server: {
-    port: 3000,
-    open: true
-  },
-  
+
+
+
+  outDir: resolve(__dirname, '../../dist'),
+
   // Vite configuration
   vite: {
     resolve: {
@@ -146,7 +148,6 @@ export default defineConfig({
     },
     publicDir: resolve(__dirname, '../../public'),
     build: {
-      outDir: resolve(__dirname, '../../dist'),
       emptyOutDir: false,
       sourcemap: true,
       minify: 'terser',

@@ -1,0 +1,2 @@
+import{_ as s,c as a,o as i,ag as n}from"./chunks/framework.uhJXnvLe.js";const l=JSON.parse('{"title":"Реальные Кейсы Внедрения","description":"","frontmatter":{},"headers":[],"relativePath":"doc/case-studies.md","filePath":"doc/case-studies.md"}');const t=s({name:"doc/case-studies.md"},[["render",function(s,l,t,e,p,r){return i(),a("div",null,[...l[0]||(l[0]=[n("",95)])])}]]);export{l as __pageData,t as default};
+//# sourceMappingURL=doc_case-studies.md.CR0rUIbH.js.map

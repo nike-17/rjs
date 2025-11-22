@@ -1,0 +1,2 @@
+import{_ as s,c as a,o as i,ag as n}from"./chunks/framework.uhJXnvLe.js";const l=JSON.parse('{"title":"Поддержка Процессоров","description":"","frontmatter":{},"headers":[],"relativePath":"doc/processors.md","filePath":"doc/processors.md"}');const e=s({name:"doc/processors.md"},[["render",function(s,l,e,t,p,h){return i(),a("div",null,[...l[0]||(l[0]=[n("",51)])])}]]);export{l as __pageData,e as default};
+//# sourceMappingURL=doc_processors.md.BphQ0Q9R.js.map

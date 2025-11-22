@@ -8,7 +8,7 @@ const SPECIAL_IDENTIFIERS: Record<string, string> = {
   'начальник': 'boss',
   'босс': 'boss', // Legacy support
   'ряд': 'array',
-  'ряд': 'array',
+
   'управляющий': 'admin',
   'админ': 'admin', // Legacy support // Legacy support // Legacy support
   'предупреждение': 'warn',
@@ -107,7 +107,7 @@ const JS_KEYWORDS: Record<string, string> = {
   'yield': 'yield'
 };
 
-  // Combined keywords and special identifiers
+// Combined keywords and special identifiers
 const KEYWORDS = { ...RUSSIAN_KEYWORDS, ...JS_KEYWORDS, ...SPECIAL_IDENTIFIERS };
 
 // Token matchers with regex patterns
@@ -211,8 +211,8 @@ export class Lexer {
       }
 
       // Skip comments
-      const commentMatch = this.match(/^\/\*[\s\S]*?\*\//, this.input.slice(this.position)) || 
-                          this.match(/^\/\/.*/, this.input.slice(this.position));
+      const commentMatch = this.match(/^\/\*[\s\S]*?\*\//, this.input.slice(this.position)) ||
+        this.match(/^\/\/.*/, this.input.slice(this.position));
       if (commentMatch) {
         this.advance(commentMatch.length);
         continue;
@@ -229,7 +229,7 @@ export class Lexer {
 
         if (type === 'IDENTIFIER') {
           const lowerValue = value.toLowerCase();
-          
+
           // Check if it's a regular keyword (not a special identifier)
           if (RUSSIAN_KEYWORDS[lowerValue] || JS_KEYWORDS[lowerValue]) {
             const keyword = RUSSIAN_KEYWORDS[lowerValue] || JS_KEYWORDS[lowerValue];

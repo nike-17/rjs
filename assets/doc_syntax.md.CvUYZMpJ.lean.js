@@ -1,2 +1,0 @@
-import{_ as s,c as i,o as a,ag as n}from"./chunks/framework.BTWWLnwJ.js";const l=JSON.parse('{"title":"Справочник по синтаксису","description":"","frontmatter":{},"headers":[],"relativePath":"doc/syntax.md","filePath":"doc/syntax.md"}');const p=s({name:"doc/syntax.md"},[["render",function(s,l,p,h,k,e){return a(),i("div",null,[...l[0]||(l[0]=[n("",22)])])}]]);export{l as __pageData,p as default};
-//# sourceMappingURL=doc_syntax.md.CvUYZMpJ.js.map

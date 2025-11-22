@@ -36,22 +36,37 @@ jobs:
       - name: Clean previous build
         run: |
           rm -rf docs/.vitepress/dist
+          rm -rf deploy-temp
           
       - name: Build docs
         run: |
-          # Build with the correct base URL
+          # Build VitePress docs
           npm run docs:build
           
           # Verify the built files
           ls -la docs/.vitepress/dist/
           
-          # Check if assets are in the correct location
-          ls -la docs/.vitepress/dist/assets/
+      - name: Prepare deployment directory
+        run: |
+          # Create temporary deployment directory
+          mkdir -p deploy-temp/doc
+          
+          # Copy landing page to root
+          cp public/index.html deploy-temp/
+          
+          # Copy VitePress docs to /doc subdirectory
+          cp -r docs/.vitepress/dist/* deploy-temp/doc/
+          
+          # Verify structure
+          echo "Deployment directory structure:"
+          ls -la deploy-temp/
+          echo "Doc subdirectory:"
+          ls -la deploy-temp/doc/
         
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: docs/.vitepress/dist
+          folder: deploy-temp
           clean: true
           force: true

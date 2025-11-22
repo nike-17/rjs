@@ -26,6 +26,15 @@ export default defineConfig({
         items: [
           { text: 'Синтаксис', link: '/doc/syntax' },
           { text: 'API', link: '/doc/api' },
+          { text: 'Поддержка процессоров', link: '/doc/processors' },
+          { text: 'Интеграция с IDE', link: '/doc/ide-integration' },
+        ]
+      },
+      {
+        text: 'Безопасность и кейсы',
+        items: [
+          { text: 'Безопасность', link: '/doc/security' },
+          { text: 'Реальные кейсы', link: '/doc/case-studies' },
         ]
       },
       { text: 'GitHub', link: 'https://github.com/nike-17/rjs' }
@@ -38,6 +47,20 @@ export default defineConfig({
           { text: 'Начало работы', link: '/doc/getting-started' },
           { text: 'Синтаксис', link: '/doc/syntax' },
           { text: 'API', link: '/doc/api' }
+        ]
+      },
+      {
+        text: 'Техническая независимость',
+        items: [
+          { text: 'Поддержка процессоров', link: '/doc/processors' },
+          { text: 'Интеграция с IDE', link: '/doc/ide-integration' }
+        ]
+      },
+      {
+        text: 'Безопасность и практика',
+        items: [
+          { text: 'Безопасность', link: '/doc/security' },
+          { text: 'Реальные кейсы', link: '/doc/case-studies' }
         ]
       }
     ],

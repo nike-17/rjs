@@ -1,25 +1,784 @@
 <!DOCTYPE html>
-<html lang="ru" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Добро пожаловать в RJS | Russian JS</title>
-    <meta name="description" content="Пишите JavaScript на русском">
-    <meta name="generator" content="VitePress v1.6.4">
-    <link rel="preload stylesheet" href="/rjs/assets/theme.DtCm9eUr.css" as="style">
-    <link rel="preload stylesheet" href="/rjs/vp-icons.css" as="style">
-    
-    <script type="module" src="/rjs/assets/app.DxR2rMRy.js"></script>
-    <link rel="preload" href="/rjs/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
-    <link rel="modulepreload" href="/rjs/assets/chunks/theme.BngTSVyB.js">
-    <link rel="modulepreload" href="/rjs/assets/chunks/framework.CgPdmDKU.js">
-    <link rel="modulepreload" href="/rjs/assets/index.md.BljssTWK.lean.js">
-    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
-    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
-  </head>
-  <body>
-    <div id="app"><div class="Layout" data-v-5d98c3a5><!--[--><!--]--><!--[--><span tabindex="-1" data-v-0b0ada53></span><a href="#VPContent" class="VPSkipLink visually-hidden" data-v-0b0ada53>Skip to content</a><!--]--><!----><header class="VPNav" data-v-5d98c3a5 data-v-ae24b3ad><div class="VPNavBar" data-v-ae24b3ad data-v-6aa21345><div class="wrapper" data-v-6aa21345><div class="container" data-v-6aa21345><div class="title" data-v-6aa21345><div class="VPNavBarTitle has-sidebar" data-v-6aa21345 data-v-1168a8e4><a class="title" href="/rjs/" data-v-1168a8e4><!--[--><!--]--><!----><span data-v-1168a8e4>Russian JS</span><!--[--><!--]--></a></div></div><div class="content" data-v-6aa21345><div class="content-body" data-v-6aa21345><!--[--><!--]--><div class="VPNavBarSearch search" data-v-6aa21345><!--[--><!----><div id="local-search"><button type="button" class="DocSearch DocSearch-Button" aria-label="Поиск по документации"><span class="DocSearch-Button-Container"><span class="vp-icon DocSearch-Search-Icon"></span><span class="DocSearch-Button-Placeholder">Поиск</span></span><span class="DocSearch-Button-Keys"><kbd class="DocSearch-Button-Key"></kbd><kbd class="DocSearch-Button-Key">K</kbd></span></button></div><!--]--></div><nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu" data-v-6aa21345 data-v-dc692963><span id="main-nav-aria-label" class="visually-hidden" data-v-dc692963> Main Navigation </span><!--[--><!--[--><a class="VPLink link VPNavBarMenuLink" href="/rjs/doc/getting-started" tabindex="0" data-v-dc692963 data-v-e56f3d57><!--[--><span data-v-e56f3d57>Начало работы</span><!--]--></a><!--]--><!--[--><div class="VPFlyout VPNavBarMenuGroup" data-v-dc692963 data-v-cf11d7a2><button type="button" class="button" aria-haspopup="true" aria-expanded="false" data-v-cf11d7a2><span class="text" data-v-cf11d7a2><!----><span data-v-cf11d7a2>Документация</span><span class="vpi-chevron-down text-icon" data-v-cf11d7a2></span></span></button><div class="menu" data-v-cf11d7a2><div class="VPMenu" data-v-cf11d7a2 data-v-b98bc113><div class="items" data-v-b98bc113><!--[--><!--[--><div class="VPMenuLink" data-v-b98bc113 data-v-35975db6><a class="VPLink link" href="/rjs/doc/syntax" data-v-35975db6><!--[--><span data-v-35975db6>Синтаксис</span><!--]--></a></div><!--]--><!--[--><div class="VPMenuLink" data-v-b98bc113 data-v-35975db6><a class="VPLink link" href="/rjs/doc/api" data-v-35975db6><!--[--><span data-v-35975db6>API</span><!--]--></a></div><!--]--><!--]--></div><!--[--><!--]--></div></div></div><!--]--><!--[--><a class="VPLink link vp-external-link-icon VPNavBarMenuLink" href="https://github.com/nike-17/rjs" target="_blank" rel="noreferrer" tabindex="0" data-v-dc692963 data-v-e56f3d57><!--[--><span data-v-e56f3d57>GitHub</span><!--]--></a><!--]--><!--]--></nav><div class="VPFlyout VPNavBarTranslations translations" data-v-6aa21345 data-v-88af2de4 data-v-cf11d7a2><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="Язык" data-v-cf11d7a2><span class="text" data-v-cf11d7a2><span class="vpi-languages option-icon" data-v-cf11d7a2></span><!----><span class="vpi-chevron-down text-icon" data-v-cf11d7a2></span></span></button><div class="menu" data-v-cf11d7a2><div class="VPMenu" data-v-cf11d7a2 data-v-b98bc113><!----><!--[--><!--[--><div class="items" data-v-88af2de4><p class="title" data-v-88af2de4>Русский</p><!--[--><div class="VPMenuLink" data-v-88af2de4 data-v-35975db6><a class="VPLink link" href="/rjs/en/" data-v-35975db6><!--[--><span data-v-35975db6>English</span><!--]--></a></div><!--]--></div><!--]--><!--]--></div></div></div><div class="VPNavBarAppearance appearance" data-v-6aa21345 data-v-6c893767><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-6c893767 data-v-5337faa4 data-v-1d5665e3><span class="check" data-v-1d5665e3><span class="icon" data-v-1d5665e3><!--[--><span class="vpi-sun sun" data-v-5337faa4></span><span class="vpi-moon moon" data-v-5337faa4></span><!--]--></span></span></button></div><div class="VPSocialLinks VPNavBarSocialLinks social-links" data-v-6aa21345 data-v-0394ad82 data-v-7bc22406><!--[--><a class="VPSocialLink no-icon" href="https://github.com/nike-17/rjs" aria-label="GitHub repository" target="_blank" rel="noopener" data-v-7bc22406 data-v-bd121fe5><span class="vpi-social-github"></span></a><!--]--></div><div class="VPFlyout VPNavBarExtra extra" data-v-6aa21345 data-v-bb2aa2f0 data-v-cf11d7a2><button type="button" class="button" aria-haspopup="true" aria-expanded="false" aria-label="extra navigation" data-v-cf11d7a2><span class="vpi-more-horizontal icon" data-v-cf11d7a2></span></button><div class="menu" data-v-cf11d7a2><div class="VPMenu" data-v-cf11d7a2 data-v-b98bc113><!----><!--[--><!--[--><div class="group translations" data-v-bb2aa2f0><p class="trans-title" data-v-bb2aa2f0>Русский</p><!--[--><div class="VPMenuLink" data-v-bb2aa2f0 data-v-35975db6><a class="VPLink link" href="/rjs/en/" data-v-35975db6><!--[--><span data-v-35975db6>English</span><!--]--></a></div><!--]--></div><div class="group" data-v-bb2aa2f0><div class="item appearance" data-v-bb2aa2f0><p class="label" data-v-bb2aa2f0>Тема</p><div class="appearance-action" data-v-bb2aa2f0><button class="VPSwitch VPSwitchAppearance" type="button" role="switch" title aria-checked="false" data-v-bb2aa2f0 data-v-5337faa4 data-v-1d5665e3><span class="check" data-v-1d5665e3><span class="icon" data-v-1d5665e3><!--[--><span class="vpi-sun sun" data-v-5337faa4></span><span class="vpi-moon moon" data-v-5337faa4></span><!--]--></span></span></button></div></div></div><div class="group" data-v-bb2aa2f0><div class="item social-links" data-v-bb2aa2f0><div class="VPSocialLinks social-links-list" data-v-bb2aa2f0 data-v-7bc22406><!--[--><a class="VPSocialLink no-icon" href="https://github.com/nike-17/rjs" aria-label="GitHub repository" target="_blank" rel="noopener" data-v-7bc22406 data-v-bd121fe5><span class="vpi-social-github"></span></a><!--]--></div></div></div><!--]--><!--]--></div></div></div><!--[--><!--]--><button type="button" class="VPNavBarHamburger hamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="VPNavScreen" data-v-6aa21345 data-v-e5dd9c1c><span class="container" data-v-e5dd9c1c><span class="top" data-v-e5dd9c1c></span><span class="middle" data-v-e5dd9c1c></span><span class="bottom" data-v-e5dd9c1c></span></span></button></div></div></div></div><div class="divider" data-v-6aa21345><div class="divider-line" data-v-6aa21345></div></div></div><!----></header><div class="VPLocalNav has-sidebar empty" data-v-5d98c3a5 data-v-a6f0e41e><div class="container" data-v-a6f0e41e><button class="menu" aria-expanded="false" aria-controls="VPSidebarNav" data-v-a6f0e41e><span class="vpi-align-left menu-icon" data-v-a6f0e41e></span><span class="menu-text" data-v-a6f0e41e>Меню</span></button><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-a6f0e41e data-v-8a42e2b4><button data-v-8a42e2b4>Вернуться наверх</button><!----></div></div></div><aside class="VPSidebar" data-v-5d98c3a5 data-v-319d5ca6><div class="curtain" data-v-319d5ca6></div><nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1" data-v-319d5ca6><span class="visually-hidden" id="sidebar-aria-label" data-v-319d5ca6> Sidebar Navigation </span><!--[--><!--]--><!--[--><div class="no-transition group" data-v-c40bc020><section class="VPSidebarItem level-0" data-v-c40bc020 data-v-b3fd67f8><div class="item" role="button" tabindex="0" data-v-b3fd67f8><div class="indicator" data-v-b3fd67f8></div><h2 class="text" data-v-b3fd67f8>Руководство</h2><!----></div><div class="items" data-v-b3fd67f8><!--[--><div class="VPSidebarItem level-1 is-link" data-v-b3fd67f8 data-v-b3fd67f8><div class="item" data-v-b3fd67f8><div class="indicator" data-v-b3fd67f8></div><a class="VPLink link link" href="/rjs/doc/getting-started" data-v-b3fd67f8><!--[--><p class="text" data-v-b3fd67f8>Начало работы</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-b3fd67f8 data-v-b3fd67f8><div class="item" data-v-b3fd67f8><div class="indicator" data-v-b3fd67f8></div><a class="VPLink link link" href="/rjs/doc/syntax" data-v-b3fd67f8><!--[--><p class="text" data-v-b3fd67f8>Синтаксис</p><!--]--></a><!----></div><!----></div><div class="VPSidebarItem level-1 is-link" data-v-b3fd67f8 data-v-b3fd67f8><div class="item" data-v-b3fd67f8><div class="indicator" data-v-b3fd67f8></div><a class="VPLink link link" href="/rjs/doc/api" data-v-b3fd67f8><!--[--><p class="text" data-v-b3fd67f8>API</p><!--]--></a><!----></div><!----></div><!--]--></div></section></div><!--]--><!--[--><!--]--></nav></aside><div class="VPContent has-sidebar" id="VPContent" data-v-5d98c3a5 data-v-1428d186><div class="VPDoc has-sidebar has-aside" data-v-1428d186 data-v-39a288b8><!--[--><!--]--><div class="container" data-v-39a288b8><div class="aside" data-v-39a288b8><div class="aside-curtain" data-v-39a288b8></div><div class="aside-container" data-v-39a288b8><div class="aside-content" data-v-39a288b8><div class="VPDocAside" data-v-39a288b8 data-v-3f215769><!--[--><!--]--><!--[--><!--]--><nav aria-labelledby="doc-outline-aria-label" class="VPDocAsideOutline" data-v-3f215769 data-v-a5bbad30><div class="content" data-v-a5bbad30><div class="outline-marker" data-v-a5bbad30></div><div aria-level="2" class="outline-title" id="doc-outline-aria-label" role="heading" data-v-a5bbad30>На этой странице</div><ul class="VPDocOutlineItem root" data-v-a5bbad30 data-v-b933a997><!--[--><!--]--></ul></div></nav><!--[--><!--]--><div class="spacer" data-v-3f215769></div><!--[--><!--]--><!----><!--[--><!--]--><!--[--><!--]--></div></div></div></div><div class="content" data-v-39a288b8><div class="content-container" data-v-39a288b8><!--[--><!--]--><main class="main" data-v-39a288b8><div style="position:relative;" class="vp-doc _rjs_" data-v-39a288b8><div><h1 id="добро-пожаловать-в-rjs" tabindex="-1">Добро пожаловать в RJS <a class="header-anchor" href="#добро-пожаловать-в-rjs" aria-label="Permalink to &quot;Добро пожаловать в RJS&quot;">​</a></h1><blockquote><p>Русский JavaScript - пишите код на родном языке</p></blockquote><p><a href="/rjs/doc/getting-started">Начать работу →</a></p></div></div></main><footer class="VPDocFooter" data-v-39a288b8 data-v-e257564d><!--[--><!--]--><div class="edit-info" data-v-e257564d><div class="edit-link" data-v-e257564d><a class="VPLink link vp-external-link-icon no-icon edit-link-button" href="https://github.com/nike-17/rjs/edit/main/docs/index.md" target="_blank" rel="noreferrer" data-v-e257564d><!--[--><span class="vpi-square-pen edit-link-icon" data-v-e257564d></span> Редактировать эту страницу<!--]--></a></div><!----></div><nav class="prev-next" aria-labelledby="doc-footer-aria-label" data-v-e257564d><span class="visually-hidden" id="doc-footer-aria-label" data-v-e257564d>Pager</span><div class="pager" data-v-e257564d><!----></div><div class="pager" data-v-e257564d><a class="VPLink link pager-link next" href="/rjs/doc/getting-started" data-v-e257564d><!--[--><span class="desc" data-v-e257564d>Вперед</span><span class="title" data-v-e257564d>Начало работы</span><!--]--></a></div></nav></footer><!--[--><!--]--></div></div></div><!--[--><!--]--></div></div><footer class="VPFooter has-sidebar" data-v-5d98c3a5 data-v-e315a0ad><div class="container" data-v-e315a0ad><p class="message" data-v-e315a0ad>Released under the MIT License.</p><p class="copyright" data-v-e315a0ad>Copyright 2025 Russian JS Transpiler</p></div></footer><!--[--><!--]--></div></div>
-    <script>window.__VP_HASH_MAP__=JSON.parse("{\"doc_api.md\":\"CfQ6OeoL\",\"doc_getting-started.md\":\"BcDo_mqX\",\"doc_index.md\":\"DAD_1bab\",\"doc_syntax.md\":\"C73KRqHY\",\"index.md\":\"BljssTWK\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"ru-RU\",\"dir\":\"ltr\",\"title\":\"Russian JS\",\"description\":\"Пишите JavaScript на русском\",\"base\":\"/rjs/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Начало работы\",\"link\":\"/doc/getting-started\"},{\"text\":\"Документация\",\"items\":[{\"text\":\"Синтаксис\",\"link\":\"/doc/syntax\"},{\"text\":\"API\",\"link\":\"/doc/api\"}]},{\"text\":\"GitHub\",\"link\":\"https://github.com/nike-17/rjs\"}],\"sidebar\":[{\"text\":\"Руководство\",\"items\":[{\"text\":\"Начало работы\",\"link\":\"/doc/getting-started\"},{\"text\":\"Синтаксис\",\"link\":\"/doc/syntax\"},{\"text\":\"API\",\"link\":\"/doc/api\"}]}],\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/nike-17/rjs\",\"ariaLabel\":\"GitHub repository\"}],\"footer\":{\"message\":\"Released under the MIT License.\",\"copyright\":\"Copyright 2025 Russian JS Transpiler\"},\"search\":{\"provider\":\"local\",\"options\":{\"translations\":{\"button\":{\"buttonText\":\"Поиск\",\"buttonAriaLabel\":\"Поиск по документации\"},\"modal\":{\"noResultsText\":\"Ничего не найдено\",\"resetButtonTitle\":\"Сбросить поиск\",\"footer\":{\"selectText\":\"для выбора\",\"navigateText\":\"для навигации\",\"closeText\":\"закрыть\"}}}}}},\"locales\":{\"root\":{\"label\":\"Русский\",\"lang\":\"ru\",\"dir\":\"ltr\",\"title\":\"Russian JS\",\"description\":\"Пишите JavaScript на русском\",\"themeConfig\":{\"docFooter\":{\"prev\":\"Назад\",\"next\":\"Вперед\"},\"outline\":{\"label\":\"На этой странице\"},\"lastUpdated\":{\"text\":\"Обновлено\",\"formatOptions\":{\"dateStyle\":\"full\",\"timeStyle\":\"medium\"}},\"langMenuLabel\":\"Язык\",\"returnToTopLabel\":\"Вернуться наверх\",\"sidebarMenuLabel\":\"Меню\",\"darkModeSwitchLabel\":\"Тема\",\"lastUpdatedText\":\"Последнее обновление\",\"editLink\":{\"pattern\":\"https://github.com/nike-17/rjs/edit/main/docs/:path\",\"text\":\"Редактировать эту страницу\"}}},\"en\":{\"label\":\"English\",\"lang\":\"en\",\"dir\":\"ltr\",\"link\":\"/en/\",\"title\":\"Russian JS\",\"description\":\"Write JavaScript in Russian\"}},\"scrollOffset\":134,\"cleanUrls\":true}");</script>
-    
-  </body>
-</html>
+<html lang="ru" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RJS - Великий Русский Код | Русский JavaScript Транспилятор</title>
+    <meta name="description"
+        content="Суверенный язык программирования, компилирующий русские ключевые слова в ES6 JavaScript. Сделано в России.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Ruslan Display (Cyrillic decorative font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --russian-white: #FFFFFF;
+            --russian-blue: #0039A6;
+            --russian-red: #D52B1E;
+            --dark-bg: #0a0e1a;
+            --gold-accent: #FFD700;
+            --text-primary: #FFFFFF;
+            --text-secondary: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-imperial {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Matrix Background */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glassmorphism Navbar */
+        .glass-nav {
+            background: linear-gradient(135deg, rgba(0, 57, 166, 0.9), rgba(10, 14, 26, 0.95));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 3px solid var(--russian-red);
+            box-shadow: 0 4px 20px rgba(213, 43, 30, 0.3);
+        }
+
+        /* Imperial Frame */
+        .imperial-frame {
+            position: relative;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 57, 166, 0.2), rgba(213, 43, 30, 0.1));
+            border: 3px solid var(--gold-accent);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .imperial-frame::before,
+        .imperial-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--gold-accent);
+            transition: all 0.3s ease;
+        }
+
+        .imperial-frame::before {
+            top: -3px;
+            left: -3px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .imperial-frame::after {
+            bottom: -3px;
+            right: -3px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .imperial-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4), 0 0 30px rgba(213, 43, 30, 0.3);
+            border-color: var(--russian-red);
+        }
+
+        .imperial-frame:hover::before,
+        .imperial-frame:hover::after {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Buttons */
+        .btn-royal {
+            background: linear-gradient(135deg, var(--russian-red), #a01010);
+            color: var(--russian-white);
+            padding: 1rem 2.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold-accent);
+            box-shadow: 0 4px 15px rgba(213, 43, 30, 0.4);
+        }
+
+        .btn-royal:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 35px rgba(213, 43, 30, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+            border-color: var(--russian-white);
+        }
+
+        .btn-gold {
+            background: transparent;
+            color: var(--gold-accent);
+            padding: 1rem 2.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold-accent);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-accent);
+            color: var(--dark-bg);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Eagle Watermark */
+        .eagle-watermark {
+            position: absolute;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Code Editor */
+        .code-editor {
+            background: #0d1117;
+            border: 3px solid var(--russian-blue);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 57, 166, 0.3);
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, var(--russian-blue), #002a80);
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid var(--gold-accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        textarea {
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            background: linear-gradient(135deg, var(--russian-red), var(--russian-blue));
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--gold-accent);
+            border-bottom: 4px solid var(--gold-accent);
+        }
+
+        .stats-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23000000" opacity="0.1"/><path d="M0 0 L50 50 L0 100 Z M100 0 L50 50 L100 100 Z" fill="%23ffffff" opacity="0.05"/></svg>');
+            opacity: 0.3;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Terminal */
+        .terminal {
+            background: #000000;
+            border: 2px solid var(--imperial-gold);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00ff00;
+        }
+
+        .terminal-line {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--imperial-gold);
+        }
+
+        /* Testimonial Cards */
+        .testimonial-card {
+            background: rgba(0, 42, 128, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--imperial-gold);
+            transform: translateY(-5px);
+        }
+
+        /* Press Cards */
+        .press-card {
+            background: linear-gradient(135deg, rgba(0, 42, 128, 0.3), rgba(179, 0, 0, 0.2));
+            border: 2px solid var(--imperial-gold);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .press-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .press-card:hover::before {
+            left: 100%;
+        }
+
+        .press-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Matrix Rain Background -->
+    <canvas id=\"matrix-canvas\"></canvas>
+
+    <div class=\"content-wrapper\">
+        <!-- Navbar -->
+        <nav class=\"glass-nav fixed w-full top-0 z-50\">
+            <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">
+                <div class=\"flex justify-between items-center h-16\">
+                    <div class=\"flex items-center gap-3\">
+                        <svg class=\"w-10 h-10\" viewBox=\"0 0 100 100\" fill=\"none\"
+                            xmlns=\"http://www.w3.org/2000/svg\">
+                            <path d=\"M50 10 L70 30 L90 20 L80 40 L90 60 L70 50 L50 70 L30 50 L10 60 L20 40 L10 20 L30
+                                30 Z\" fill=\"var(--imperial-gold)\" stroke=\"var(--imperial-red)\"
+                                stroke-width=\"2\" />
+                            <circle cx=\"50\" cy=\"40\" r=\"8\" fill=\"var(--imperial-red)\" />
+                        </svg>
+                        <div>
+                            <div class=\"text-xl font-bold font-imperial\" style=\"color: var(--imperial-gold);\">RJS
+                                <div class="text-xl font-bold font-imperial" style="color: var(--imperial-gold);">RJS
+                                </div>
+                                <div class="text-xs" style="color: var(--imperial-gold); opacity: 0.7;">Web Empire</div>
+                            </div>
+                        </div>
+
+                        <div class="hidden md:flex items-center gap-8">
+                            <a href="#features"
+                                class="text-white hover:text-yellow-300 transition font-semibold">Возможности</a>
+                            <a href="#mechanics"
+                                class="text-white hover:text-yellow-300 transition font-semibold">Механика</a>
+                            <a href="#herald"
+                                class="text-white hover:text-yellow-300 transition font-semibold">Вестник</a>
+                            <a href="/rjs/doc/"
+                                class="text-white hover:text-yellow-300 transition font-semibold">Документация</a>
+                            <a href="https://github.com/nike-17/rjs" target="_blank"
+                                class="px-4 py-2 rounded-lg font-bold"
+                                style="background: var(--gold-accent); color: var(--dark-bg);">GitHub</a>
+                        </div>
+                    </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center relative pt-20 px-4">
+            <svg class="eagle-watermark w-full h-full" style="top: 50%; left: 50%; transform: translate(-50%,
+                -50%);" viewBox="0 0 200 200">
+                <path d="M100 50 L120 70 L140 60 L130 80 L140 100 L120 90 L100 110 L80 90 L60 100 L70 80 L60 60 L80 70
+                    Z" fill="var(--imperial-gold)" />
+                <path d="M100 70 L110 80 L120 75 L115 85 L120 95 L110 90 L100 100 L90 90 L80 95 L85 85 L80 75 L90 80
+                    Z" fill="var(--imperial-red)" />
+            </svg>
+
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <div class="inline-block px-4 py-2 mb-6 rounded-full"
+                    style="background: linear-gradient(135deg, var(--russian-red), var(--russian-blue)); border: 2px solid var(--gold-accent);">
+                    <span
+                        style="color: var(--russian-white); font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">✓
+                        Одобрено для 1С:Предприятие</span>
+                </div>
+
+                <h1 class="text-6xl md:text-8xl font-imperial font-bold mb-6 fade-in-up"
+                    style="color: var(--gold-accent); text-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 20px rgba(213, 43, 30, 0.4);">
+                    Великий Русский Код
+                </h1>
+
+                <p class="text-xl md:text-2xl mb-4 font-playfair fade-in-up"
+                    style="animation-delay: 0.2s; color: var(--text-primary); font-weight: 600;">
+                    Суверенная Технология Цифровой Эпохи
+                </p>
+
+                <p class="text-lg mb-8 max-w-3xl mx-auto fade-in-up"
+                    style="animation-delay: 0.3s; color: var(--text-secondary); font-weight: 500;">
+                    Пишите JavaScript на русском. Оптимизировано для процессоров Эльбрус и Байкал.
+                    <br>Ноль зависимостей. Ноль уязвимостей. Максимальный суверенитет.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up" style="animation-delay:
+                    0.4s;">
+                    <a href="#playground" class="btn-royal inline-block">Попробовать</a>
+                    <a href="https://github.com/nike-17/rjs" target="_blank" class="btn-gold inline-block">Архивы
+                        GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-16 animate-on-scroll"
+                    style="color: var(--gold-accent); text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);">
+                    Имперские Возможности
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="imperial-frame animate-on-scroll">
+                        <div class="text-5xl mb-4">🛡️</div>
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Безопасность</h3>
+                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Ноль уязвимостей. В
+                            отличие от npm-пакетов с тысячами зависимостей, RJS чист и суверенен.</p>
+                        <div class="text-sm font-bold" style="color: var(--russian-red);">0 CVE • 0 Зависимостей</div>
+                    </div>
+
+                    <div class="imperial-frame animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="text-5xl mb-4">⚡</div>
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Величие</h3>
+                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Оптимизировано для
+                            отечественного железа. Безупречно работает на процессорах Эльбрус и Байкал.</p>
+                        <div class="text-sm font-bold" style="color: var(--russian-blue);">100% Российская Совместимость
+                        </div>
+                    </div>
+
+                    <div class="imperial-frame animate-on-scroll" style="animation-delay: 0.2s;">
+                        <div class="text-5xl mb-4">🧠</div>
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Ясность</h3>
+                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Снижение когнитивной
+                            нагрузки. Пишите код на родном языке. Думайте по-русски, кодируйте по-русски.</p>
+                        <div class="text-sm font-bold" style="color: var(--russian-white);">Преимущество Родного Языка
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Playground -->
+        <section id="playground" class="py-20 px-4" style="background: rgba(0, 42, 128, 0.05);">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-4 animate-on-scroll"
+                    style="color: var(--gold-accent); text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);">
+                    Имперская Кузница
+                </h2>
+                <p class="text-center mb-12 animate-on-scroll" style="color: var(--text-secondary); font-weight: 500;">
+                    Преобразуйте русский код в JavaScript в реальном времени</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="code-editor animate-on-scroll">
+                        <div class="code-header">
+                            <div class="code-dot" style="background: #ff5f56;"></div>
+                            <div class="code-dot" style="background: #ffbd2e;"></div>
+                            <div class="code-dot" style="background: #27c93f;"></div>
+                            <span class="text-sm font-bold"
+                                style="color: var(--gold-accent); margin-left: 1rem;">Русский JS</span>
+                        </div>
+                        <textarea id="russian-code" class="w-full h-64 p-4 font-mono" placeholder="Введите код на
+                            русском..." spellcheck="false">функция приветствие(имя) {
+  константа сообщение = "Здравствуйте, " + имя;
+  вернуть сообщение;
+}
+
+казна = приветствие("Товарищ");</textarea>
+                    </div>
+
+                    <div class="code-editor animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="code-header">
+                            <div class="code-dot" style="background: #ff5f56;"></div>
+                            <div class="code-dot" style="background: #ffbd2e;"></div>
+                            <div class="code-dot" style="background: #27c93f;"></div>
+                            <span class="text-sm" style="color: var(--imperial-gold); margin-left: 1rem;">JavaScript
+                                ES6</span>
+                        </div>
+                        <textarea id="js-output" class="w-full h-64 p-4 font-mono" readonly style="color:
+                            #4ade80;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Banner -->
+        <section class="stats-banner py-16 px-4 relative">
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="animate-on-scroll">
+                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="700">0
+                        </div>
+                        <div class="text-sm text-gray-300">Карма Habr</div>
+                    </div>
+                    <div class="animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="3000">0
+                        </div>
+                        <div class="text-sm text-gray-300">Лайки Pikabu</div>
+                    </div>
+                    <div class="animate-on-scroll" style="animation-delay: 0.2s;">
+                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="500">0
+                        </div>
+                        <div class="text-sm text-gray-300">Звёзды GitHub</div>
+                    </div>
+                    <div class="animate-on-scroll" style="animation-delay: 0.3s;">
+                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="18000">0
+                        </div>
+                        <div class="text-sm text-gray-300">Подписей Петиции</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Press/Herald Section -->
+        <section id="herald" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-4 animate-on-scroll"
+                    style="color: var(--imperial-gold);">
+                    Имперский Вестник
+                </h2>
+                <p class="text-center text-gray-400 mb-12 animate-on-scroll">Что говорят о RJS</p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <a href="#" class="press-card animate-on-scroll block">
+                        <div class="text-3xl mb-3">📰</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">Habr</h3>
+                        <p class="text-gray-300 text-sm mb-3">"Революционный подход к суверенной разработке ПО"</p>
+                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
+                    </a>
+
+                    <a href="#" class="press-card animate-on-scroll block" style="animation-delay: 0.1s;">
+                        <div class="text-3xl mb-3">🎯</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">Pikabu</h3>
+                        <p class="text-gray-300 text-sm mb-3">"Наконец-то язык, говорящий на нашем языке"</p>
+                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
+                    </a>
+
+                    <a href="#" class="press-card animate-on-scroll block" style="animation-delay: 0.2s;">
+                        <div class="text-3xl mb-3">💼</div>
+                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">VC.ru</h3>
+                        <p class="text-gray-300 text-sm mb-3">"Будущее российской технологической независимости"</p>
+                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Section -->
+        <section id="mechanics" class="py-20 px-4" style="background: rgba(0, 42, 128, 0.05);">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-12 animate-on-scroll"
+                    style="color: var(--imperial-gold);">
+                    Установка
+                </h2>
+
+                <div class="terminal animate-on-scroll">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span id="install-command"></span>
+                        <span class="cursor">_</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-12 animate-on-scroll"
+                    style="color: var(--imperial-gold);">
+                    Голоса Империи
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="testimonial-card animate-on-scroll">
+                        <div class="text-4xl mb-4">👨‍💼</div>
+                        <p class="text-gray-300 mb-4 italic">"Наконец-то могу писать код на родном языке.
+                            Производительность выросла на 40%."</p>
+                        <div class="text-sm" style="color: var(--imperial-gold);">— Разработчик 1С, Москва</div>
+                    </div>
+
+                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.1s;">
+                        <div class="text-4xl mb-4">🎓</div>
+                        <p class="text-gray-300 mb-4 italic">"Это именно то, что нужно для обучения программированию
+                            в школах."</p>
+                        <div class="text-sm" style="color: var(--imperial-gold);">— Министерство Образования</div>
+                    </div>
+
+                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.2s;">
+                        <div class="text-4xl mb-4">🔒</div>
+                        <p class="text-gray-300 mb-4 italic">"Безопасность и суверенитет в одном пакете.
+                            Впечатляет."</p>
+                        <div class="text-sm" style="color: var(--imperial-gold);">— Анонимно, Яндекс</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-32 px-4 relative overflow-hidden">
+            <svg class="eagle-watermark w-full h-full" style="top: 50%; left: 50%; transform: translate(-50%, -50%);
+                opacity: 0.05;" viewBox="0 0 400 400">
+                <path d="M200 100 L240 140 L280 120 L260 160 L280 200 L240 180 L200 220 L160 180 L120 200 L140 160 L120
+                    120 L160 140 Z" fill="var(--imperial-gold)" stroke="var(--imperial-red)" stroke-width="4" />
+                <path d="M200 140 L220 160 L240 150 L230 170 L240 190 L220 180 L200 200 L180 180 L160 190 L170 170 L160
+                    150 L180 160 Z" fill="var(--imperial-red)" />
+            </svg>
+
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 class="text-5xl md:text-6xl font-imperial font-bold mb-6 animate-on-scroll" style="color:
+                    var(--imperial-gold);">
+                    Ваш Код — Ваша Крепость
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 animate-on-scroll">
+                    Присоединяйтесь к движению за технологический суверенитет
+                </p>
+                <a href="https://chng.it/bYLDQ6tMdR" target="_blank" class="btn-royal inline-block text-xl px-12
+                    py-4 animate-on-scroll">
+                    Подписать Петицию
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 px-4 border-t" style="border-color: rgba(212, 175, 55, 0.2);">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-gray-400 mb-2">© 2025 RJS - Русский JavaScript Транспилятор</p>
+                <p class="text-sm" style="color: var(--imperial-gold);">Сделано в России ☦️</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Matrix Rain Animation
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const russianKeywords = ['функция', 'вернуть', 'если', 'иначе', 'для', 'пока', 'константа', 'переменная', 'казна', 'истина', 'ложь'];
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(1);
+        const colors = ['#ffffff', '#0039a6', '#d52b1e']; // Tricolor
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(15, 17, 26, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = '14px JetBrains Mono';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = russianKeywords[Math.floor(Math.random() * russianKeywords.length)];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                ctx.fillStyle = color;
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Code Playground Translation
+        const russianCode = document.getElementById('russian-code');
+        const jsOutput = document.getElementById('js-output');
+
+        const translations = {
+            'функция': 'function',
+            'вернуть': 'return',
+            'константа': 'const',
+            'переменная': 'let',
+            'казна': 'treasury',
+            'если': 'if',
+            'иначе': 'else',
+            'для': 'for',
+            'пока': 'while',
+            'истина': 'true',
+            'ложь': 'false'
+        };
+
+        let typewriterTimeout;
+
+        function translateCode(text) {
+            let translated = text;
+            for (const [russian, english] of Object.entries(translations)) {
+                const regex = new RegExp(russian, 'g');
+                translated = translated.replace(regex, english);
+            }
+            return translated;
+        }
+
+        function typewriterEffect(text, element, index = 0) {
+            if (index < text.length) {
+                element.value = text.substring(0, index + 1);
+                typewriterTimeout = setTimeout(() => typewriterEffect(text, element, index + 1), 20);
+            }
+        }
+
+        russianCode.addEventListener('input', () => {
+            clearTimeout(typewriterTimeout);
+            const translated = translateCode(russianCode.value);
+            jsOutput.value = '';
+            typewriterEffect(translated, jsOutput);
+        });
+
+        // Initial translation
+        const initialTranslation = translateCode(russianCode.value);
+        typewriterEffect(initialTranslation, jsOutput);
+
+        // Terminal Typewriter
+        const installCommand = 'npm i russian-js-transpiler';
+        const terminalElement = document.getElementById('install-command');
+        let terminalIndex = 0;
+
+        function typeInstallCommand() {
+            if (terminalIndex < installCommand.length) {
+                terminalElement.textContent += installCommand.charAt(terminalIndex);
+                terminalIndex++;
+                setTimeout(typeInstallCommand, 100);
+            }
+        }
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Trigger terminal animation
+                    if (entry.target.querySelector('#install-command')) {
+                        typeInstallCommand();
+                    }
+
+                    // Trigger counter animations
+                    if (entry.target.querySelector('[data-count]')) {
+                        entry.target.querySelectorAll('[data-count]').forEach(counter => {
+                            const target = parseInt(counter.getAttribute('data-count'));
+                            let current = 0;
+                            const increment = target / 100;
+                            const timer = setInterval(() => {
+                                current += increment;
+                                if (current >= target) {
+                                    counter.textContent = target.toLocaleString() + '+';
+                                    clearInterval(timer);
+                                } else {
+                                    counter.textContent = Math.floor(current).toLocaleString();
+                                }
+                            }, 20);
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>"

@@ -4,781 +4,958 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RJS - Великий Русский Код | Русский JavaScript Транспилятор</title>
+    <title>RJS — Русский JavaScript | Империя Веб-Технологий</title>
     <meta name="description"
-        content="Суверенный язык программирования, компилирующий русские ключевые слова в ES6 JavaScript. Сделано в России.">
+        content="Первый отечественный транспайлер JavaScript. Пиши: если, иначе, функция. Работает на Эльбрус, Байкал и в 1С.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RJS — Русский JavaScript">
+    <meta property="og:description" content="Суверенный язык программирования. Компилируется в ES6+. 0 уязвимостей.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/nike-17/rjs/main/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;700&family=Ruslan+Display&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Ruslan Display (Cyrillic decorative font) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rjs: {
+                            dark: '#0f111a',
+                            darker: '#050608',
+                            red: '#b30000',   /* Более глубокий, "царский" красный */
+                            blue: '#002a80',  /* Глубокий синий */
+                            gold: '#d4af37',  /* Имперское золото */
+                            goldLight: '#fceabb',
+                            gray: '#8892b0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Ruslan Display', 'serif'], /* Старорусский стиль */
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'float': 'float 8s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                    },
+                    backgroundImage: {
+                        'imperial-gradient': 'linear-gradient(135deg, #0f111a 0%, #1a1d2d 100%)',
+                        'gold-border': 'linear-gradient(90deg, transparent, #d4af37, transparent)',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --russian-white: #FFFFFF;
-            --russian-blue: #0039A6;
-            --russian-red: #D52B1E;
-            --dark-bg: #0a0e1a;
-            --gold-accent: #FFD700;
-            --text-primary: #FFFFFF;
-            --text-secondary: #E0E0E0;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--dark-bg);
-            color: #ffffff;
+            background-color: #0f111a;
+            color: #e2e8f0;
             overflow-x: hidden;
+            /* Subtle texture background */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        .font-imperial {
-            font-family: 'Cormorant Garamond', serif;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
 
-        .font-playfair {
-            font-family: 'Playfair Display', serif;
+        ::-webkit-scrollbar-track {
+            background: #050608;
+            border-left: 1px solid #333;
         }
 
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #d4af37, #b30000, #002a80);
+            border: 2px solid #050608;
         }
 
-        /* Matrix Background */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
+        /* Text Effects */
+        .text-gradient-gold {
+            background: linear-gradient(to bottom, #fceabb 0%, #d4af37 50%, #9e7f11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
         }
 
-        .content-wrapper {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Glassmorphism Navbar */
-        .glass-nav {
-            background: linear-gradient(135deg, rgba(0, 57, 166, 0.9), rgba(10, 14, 26, 0.95));
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 3px solid var(--russian-red);
-            box-shadow: 0 4px 20px rgba(213, 43, 30, 0.3);
-        }
-
-        /* Imperial Frame */
+        /* Heraldic Frame for Cards */
         .imperial-frame {
             position: relative;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(0, 57, 166, 0.2), rgba(213, 43, 30, 0.1));
-            border: 3px solid var(--gold-accent);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .imperial-frame::before,
         .imperial-frame::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--gold-accent);
+            width: 10px;
+            height: 10px;
+            border: 1px solid #d4af37;
             transition: all 0.3s ease;
         }
 
         .imperial-frame::before {
-            top: -3px;
-            left: -3px;
-            border-right: none;
-            border-bottom: none;
+            top: -1px;
+            left: -1px;
+            border-right: 0;
+            border-bottom: 0;
         }
 
         .imperial-frame::after {
-            bottom: -3px;
-            right: -3px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .imperial-frame:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4), 0 0 30px rgba(213, 43, 30, 0.3);
-            border-color: var(--russian-red);
+            bottom: -1px;
+            right: -1px;
+            border-left: 0;
+            border-top: 0;
         }
 
         .imperial-frame:hover::before,
         .imperial-frame:hover::after {
-            width: 30px;
-            height: 30px;
-        }
-
-        /* Buttons */
-        .btn-royal {
-            background: linear-gradient(135deg, var(--russian-red), #a01010);
-            color: var(--russian-white);
-            padding: 1rem 2.5rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: all 0.3s ease;
-            border: 2px solid var(--gold-accent);
-            box-shadow: 0 4px 15px rgba(213, 43, 30, 0.4);
-        }
-
-        .btn-royal:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 35px rgba(213, 43, 30, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
-            border-color: var(--russian-white);
-        }
-
-        .btn-gold {
-            background: transparent;
-            color: var(--gold-accent);
-            padding: 1rem 2.5rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: all 0.3s ease;
-            border: 2px solid var(--gold-accent);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .btn-gold:hover {
-            background: var(--gold-accent);
-            color: var(--dark-bg);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            width: 100%;
+            height: 100%;
         }
 
         /* Eagle Watermark */
-        .eagle-watermark {
+        .eagle-bg {
             position: absolute;
-            opacity: 0.03;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            opacity: 0.05;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Code Editor */
-        .code-editor {
-            background: #0d1117;
-            border: 3px solid var(--russian-blue);
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 57, 166, 0.3);
-        }
-
-        .code-header {
-            background: linear-gradient(135deg, var(--russian-blue), #002a80);
-            padding: 0.75rem 1rem;
-            border-bottom: 2px solid var(--gold-accent);
+        /* Ornament Divider */
+        .ornament-divider {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+            opacity: 0.6;
         }
 
-        .code-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        textarea {
-            background: transparent;
-            color: var(--text-primary);
-            border: none;
-            outline: none;
-            resize: none;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            font-weight: 500;
-        }
-
-        /* Stats Banner */
-        .stats-banner {
-            background: linear-gradient(135deg, var(--russian-red), var(--russian-blue));
-            position: relative;
-            overflow: hidden;
-            border-top: 4px solid var(--gold-accent);
-            border-bottom: 4px solid var(--gold-accent);
-        }
-
-        .stats-banner::before {
+        .ornament-divider::before,
+        .ornament-divider::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23000000" opacity="0.1"/><path d="M0 0 L50 50 L0 100 Z M100 0 L50 50 L100 100 Z" fill="%23ffffff" opacity="0.05"/></svg>');
-            opacity: 0.3;
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Terminal */
-        .terminal {
-            background: #000000;
-            border: 2px solid var(--imperial-gold);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: #00ff00;
-        }
-
-        .terminal-line {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .terminal-prompt {
-            color: var(--imperial-gold);
-        }
-
-        /* Testimonial Cards */
-        .testimonial-card {
-            background: rgba(0, 42, 128, 0.2);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 0.75rem;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            border-color: var(--imperial-gold);
-            transform: translateY(-5px);
-        }
-
-        /* Press Cards */
-        .press-card {
-            background: linear-gradient(135deg, rgba(0, 42, 128, 0.3), rgba(179, 0, 0, 0.2));
-            border: 2px solid var(--imperial-gold);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .press-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .press-card:hover::before {
-            left: 100%;
-        }
-
-        .press-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        .ornament-icon {
+            padding: 0 1rem;
+            color: #d4af37;
         }
     </style>
 </head>
 
-<body>
-    <!-- Matrix Rain Background -->
-    <canvas id=\"matrix-canvas\"></canvas>
+<body class="antialiased">
 
-    <div class=\"content-wrapper\">
-        <!-- Navbar -->
-        <nav class=\"glass-nav fixed w-full top-0 z-50\">
-            <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">
-                <div class=\"flex justify-between items-center h-16\">
-                    <div class=\"flex items-center gap-3\">
-                        <svg class=\"w-10 h-10\" viewBox=\"0 0 100 100\" fill=\"none\"
-                            xmlns=\"http://www.w3.org/2000/svg\">
-                            <path d=\"M50 10 L70 30 L90 20 L80 40 L90 60 L70 50 L50 70 L30 50 L10 60 L20 40 L10 20 L30
-                                30 Z\" fill=\"var(--imperial-gold)\" stroke=\"var(--imperial-red)\"
-                                stroke-width=\"2\" />
-                            <circle cx=\"50\" cy=\"40\" r=\"8\" fill=\"var(--imperial-red)\" />
+    <!-- Hidden SVG Sprite for Eagle -->
+    <svg style="display: none;">
+        <symbol id="eagle-crest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"
+            stroke-linecap="round" stroke-linejoin="round">
+            <!-- Stylized Abstract Eagle -->
+            <path d="M12 2l2 3h-4l2-3z" fill="currentColor" stroke="none" /> <!-- Crown -->
+            <path d="M5 8c0-2 1.5-3 3-3s3 1 3 3c0 2-2 3-2 5h-2c0-2-2-3-2-5z" /> <!-- Left Head -->
+            <path d="M19 8c0-2-1.5-3-3-3s-3 1-3 3c0 2 2 3 2 5h2c0-2 2-3 2-5z" /> <!-- Right Head -->
+            <path d="M7 13l-5-2 2 8 5 3" /> <!-- Left Wing -->
+            <path d="M17 13l5-2-2 8-5 3" /> <!-- Right Wing -->
+            <path d="M12 10v10" /> <!-- Body Spine -->
+            <path d="M9 16c0 0 3 2 6 0" /> <!-- Shield base -->
+            <circle cx="12" cy="14" r="2" /> <!-- Center Emblem -->
+        </symbol>
+    </svg>
+
+    <!-- Background Animation Canvas (Matrix) -->
+    <canvas id="matrixCanvas" class="fixed top-0 left-0 w-full h-full z-0 opacity-20 pointer-events-none"></canvas>
+
+    <!-- Giant Background Eagle Watermark -->
+    <div class="fixed inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <svg class="w-[120vh] h-[120vh] text-rjs-gold opacity-[0.03] animate-pulse-slow" viewBox="0 0 200 200">
+            <!-- Simplified Heraldic Outline -->
+            <path fill="currentColor"
+                d="M100,20 C105,20 108,15 110,10 C112,15 115,20 120,20 C130,20 135,30 130,40 C145,35 160,40 170,50 C180,60 175,80 160,90 C170,100 170,120 160,140 L150,130 C155,150 140,170 120,180 L110,160 C110,170 105,180 100,180 C95,180 90,170 90,160 L80,180 C60,170 45,150 50,130 L40,140 C30,120 30,100 40,90 C25,80 20,60 30,50 C40,40 55,35 70,40 C65,30 70,20 80,20 C85,20 88,15 90,10 C92,15 95,20 100,20 Z M100,50 L100,150 M70,70 L130,70 M80,120 L120,120" />
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#050608]/90 backdrop-blur-md border-b border-rjs-gold/30 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+        id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24">
+                <div class="flex items-center space-x-4 cursor-pointer group" onclick="window.scrollTo(0,0)">
+                    <!-- Heraldic Logo -->
+                    <div
+                        class="relative w-12 h-12 flex items-center justify-center border-2 border-rjs-gold/50 rounded-sm rotate-45 bg-black group-hover:rotate-0 transition-transform duration-500">
+                        <div class="absolute inset-1 border border-rjs-gold/20"></div>
+                        <svg
+                            class="w-8 h-8 text-rjs-gold -rotate-45 group-hover:rotate-0 transition-transform duration-500">
+                            <use href="#eagle-crest" />
                         </svg>
-                        <div>
-                            <div class=\"text-xl font-bold font-imperial\" style=\"color: var(--imperial-gold);\">RJS
-                                <div class="text-xl font-bold font-imperial" style="color: var(--imperial-gold);">RJS
-                                </div>
-                                <div class="text-xs" style="color: var(--imperial-gold); opacity: 0.7;">Web Empire</div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="flex text-2xl font-display tracking-widest uppercase">
+                            <span class="text-white">R</span>
+                            <span class="text-rjs-blue">J</span>
+                            <span class="text-rjs-red">S</span>
+                        </div>
+                        <span
+                            class="text-[0.6rem] text-rjs-gold uppercase tracking-[0.2em] border-t border-rjs-gold/30 pt-1">Веб-Империя</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-1">
+                        <!-- Nav Items with decorative separators -->
+                        <a href="#features"
+                            class="text-gray-300 hover:text-rjs-gold transition-colors px-4 py-2 text-sm font-serif tracking-wide uppercase">Преимущества</a>
+                        <span class="text-rjs-gold/30 text-xs">♦</span>
+                        <a href="#how-it-works"
+                            class="text-gray-300 hover:text-rjs-gold transition-colors px-4 py-2 text-sm font-serif tracking-wide uppercase">Механика</a>
+                        <span class="text-rjs-gold/30 text-xs">♦</span>
+                        <a href="#media"
+                            class="text-gray-300 hover:text-rjs-gold transition-colors px-4 py-2 text-sm font-serif tracking-wide uppercase">Вестник</a>
+                        <span class="text-rjs-gold/30 text-xs">♦</span>
+                        <a href="/rjs/doc/"
+                            class="text-gray-300 hover:text-rjs-gold transition-colors px-4 py-2 text-sm font-serif tracking-wide uppercase">Документация</a>
+                        <span class="text-rjs-gold/30 text-xs">♦</span>
+                        <a href="https://github.com/nike-17/rjs" target="_blank"
+                            class="ml-4 bg-transparent border border-rjs-gold/50 hover:bg-rjs-gold/10 hover:border-rjs-gold text-rjs-gold px-6 py-2 transition-all font-display text-sm flex items-center gap-2 shadow-[0_0_10px_rgba(212,175,55,0.1)]">
+                            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="text-rjs-gold hover:text-white p-2">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-[#0f111a] border-b border-rjs-gold/30" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-2 font-serif text-center">
+                <a href="#features" class="block px-3 py-3 text-rjs-gold border-b border-white/5">Преимущества</a>
+                <a href="#how-it-works" class="block px-3 py-3 text-rjs-gold border-b border-white/5">Механика</a>
+                <a href="#media" class="block px-3 py-3 text-rjs-gold border-b border-white/5">Вестник</a>
+                <a href="/rjs/doc/" class="block px-3 py-3 text-rjs-gold">Документация</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 flex items-center justify-center min-h-screen pt-20 overflow-hidden">
+        <!-- Crown/Halo Effect -->
+        <div
+            class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-rjs-gold/20 to-transparent rounded-full blur-[100px] pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+
+            <!-- Decorative Top Element -->
+            <div class="flex justify-center mb-6 opacity-80">
+                <div class="flex items-center gap-4 text-rjs-gold">
+                    <div class="h-px w-12 bg-gradient-to-r from-transparent to-rjs-gold"></div>
+                    <svg class="w-8 h-8">
+                        <use href="#eagle-crest" />
+                    </svg>
+                    <div class="h-px w-12 bg-gradient-to-l from-transparent to-rjs-gold"></div>
+                </div>
+            </div>
+
+            <div
+                class="inline-flex items-center gap-2 px-6 py-2 border border-rjs-gold/30 bg-black/50 backdrop-blur-sm text-rjs-gold text-xs uppercase tracking-[0.15em] mb-8">
+                <span class="w-1.5 h-1.5 bg-rjs-red rotate-45"></span>
+                Утверждено для 1С:Предприятие 8.3.27+
+                <span class="w-1.5 h-1.5 bg-rjs-red rotate-45"></span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl lg:text-9xl font-display font-bold tracking-tight mb-6 text-white drop-shadow-2xl"
+                data-aos="fade-up">
+                <span class="block mb-2 text-4xl md:text-6xl text-gray-300 font-serif italic">Великий</span>
+                <span class="text-gradient-gold uppercase">Русский Код</span>
+            </h1>
+
+            <p
+                class="mt-8 max-w-2xl mx-auto text-xl text-gray-300 font-serif italic leading-relaxed border-l-2 border-rjs-red pl-6 text-left md:text-center md:border-l-0 md:border-t-0 md:pl-0">
+                Символ цифрового суверенитета. Пиши <span class="text-rjs-gold">если / иначе</span>, <span
+                    class="text-rjs-gold">функция / вернуть</span>.
+                Незыблемая надежность на процессорах «Эльбрус» и «Байкал».
+            </p>
+
+            <div class="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <!-- Royal Button -->
+                <a href="#playground"
+                    class="group relative w-full sm:w-auto px-12 py-5 bg-rjs-red hover:bg-[#8a0000] text-white transition-all duration-300 font-display uppercase tracking-widest shadow-[0_10px_30px_rgba(179,0,0,0.4)] border border-rjs-red hover:border-rjs-gold">
+                    <div class="absolute inset-0 border border-white/20 m-1 group-hover:m-1.5 transition-all"></div>
+                    <span class="relative flex items-center justify-center gap-3">
+                        <svg class="w-4 h-4 text-rjs-gold">
+                            <use href="#eagle-crest" />
+                        </svg>
+                        Испытать
+                        <svg class="w-4 h-4 text-rjs-gold">
+                            <use href="#eagle-crest" />
+                        </svg>
+                    </span>
+                </a>
+
+                <a href="https://github.com/nike-17/rjs" target="_blank"
+                    class="w-full sm:w-auto px-10 py-5 bg-transparent border border-rjs-gold text-rjs-gold hover:bg-rjs-gold hover:text-black transition-all font-display uppercase tracking-widest">
+                    GitHub Архивы
+                </a>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-rjs-gold/50 animate-bounce">
+                <div class="text-[10px] uppercase tracking-[0.3em] mb-2">Далее</div>
+                <i data-lucide="chevron-down" class="w-6 h-6 mx-auto"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="ornament-divider max-w-4xl mx-auto">
+        <span class="ornament-icon text-2xl">❖</span>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 relative z-10 bg-[#08090c]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-display text-white mb-4"><span class="text-rjs-gold">Три Столпа</span>
+                    Суверенитета</h2>
+                <div class="h-1 w-24 bg-rjs-red mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Pillar 1 -->
+                <div class="imperial-frame bg-[#0f111a] p-10 text-center group hover:bg-[#141620] transition-colors">
+                    <div
+                        class="w-20 h-20 mx-auto bg-black border-2 border-rjs-gold/30 rounded-full flex items-center justify-center mb-8 group-hover:border-rjs-gold transition-colors shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                        <i data-lucide="shield-check" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-display text-rjs-gold mb-4">Безопасность</h3>
+                    <p class="text-gray-400 font-serif leading-relaxed">
+                        Нулевая терпимость к уязвимостям. В отличие от заморского npm, наш реестр чист, как слеза
+                        младенца.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="imperial-frame bg-[#0f111a] p-10 text-center group hover:bg-[#141620] transition-colors">
+                    <div
+                        class="w-20 h-20 mx-auto bg-black border-2 border-rjs-gold/30 rounded-full flex items-center justify-center mb-8 group-hover:border-rjs-gold transition-colors shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                        <i data-lucide="crown" class="w-10 h-10 text-rjs-blue"></i>
+                    </div>
+                    <h3 class="text-2xl font-display text-rjs-gold mb-4">Величие</h3>
+                    <p class="text-gray-400 font-serif leading-relaxed">
+                        Оптимизирован для архитектуры «Байкал» и «Эльбрус». Настоящий царь-компилятор для
+                        государственных нужд.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="imperial-frame bg-[#0f111a] p-10 text-center group hover:bg-[#141620] transition-colors">
+                    <div
+                        class="w-20 h-20 mx-auto bg-black border-2 border-rjs-gold/30 rounded-full flex items-center justify-center mb-8 group-hover:border-rjs-gold transition-colors shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                        <i data-lucide="scroll" class="w-10 h-10 text-rjs-red"></i>
+                    </div>
+                    <h3 class="text-2xl font-display text-rjs-gold mb-4">Ясность</h3>
+                    <p class="text-gray-400 font-serif leading-relaxed">
+                        Снижает когнитивную нагрузку. Русский синтаксис понятен интуитивно, от школьника до министра.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ornament Divider -->
+    <div class="ornament-divider max-w-4xl mx-auto">
+        <span class="ornament-icon text-2xl">❖</span>
+    </div>
+
+    <!-- How It Works (Playground) -->
+    <section id="playground" class="py-24 relative z-10 bg-[#050608]">
+        <div
+            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] opacity-30">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div
+                        class="inline-block border border-rjs-gold/50 px-3 py-1 text-rjs-gold text-xs font-display mb-4 uppercase tracking-widest">
+                        Демонстрация</div>
+                    <h2 class="text-4xl md:text-6xl font-display text-white mb-8">
+                        Язык <br> <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-white via-rjs-blue to-rjs-red">Родной
+                            Земли</span>
+                    </h2>
+                    <p class="text-gray-400 mb-10 text-lg font-serif italic">
+                        RJS преобразует исконно русские повеления в машинный код иноземцев (ES6), сохраняя дух и логику
+                        разработчика.
+                    </p>
+
+                    <div class="pl-6 border-l border-rjs-gold/30 space-y-6">
+                        <div class="group">
+                            <h4
+                                class="text-rjs-gold font-display uppercase tracking-wider mb-1 group-hover:text-white transition-colors">
+                                Шаг I. Написание</h4>
+                            <p class="text-gray-500 text-sm">Излагайте мысли на могучем русском языке.</p>
+                        </div>
+                        <div class="group">
+                            <h4
+                                class="text-rjs-gold font-display uppercase tracking-wider mb-1 group-hover:text-white transition-colors">
+                                Шаг II. Трансляция</h4>
+                            <p class="text-gray-500 text-sm">Мгновенный перевод без потери смысла.</p>
+                        </div>
+                        <div class="group">
+                            <h4
+                                class="text-rjs-gold font-display uppercase tracking-wider mb-1 group-hover:text-white transition-colors">
+                                Шаг III. Исполнение</h4>
+                            <p class="text-gray-500 text-sm">Работает везде: от браузера до 1С.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <button onclick="runDemo()"
+                            class="px-8 py-4 bg-white/5 border border-rjs-gold text-rjs-gold hover:bg-rjs-gold hover:text-black transition-all font-display uppercase tracking-widest flex items-center gap-3 group">
+                            <i data-lucide="play-circle" class="group-hover:fill-black"></i> Запустить
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Editor Mockup - Imperial Style -->
+                <div class="relative bg-[#0f111a] border-2 border-rjs-gold/30 rounded-sm p-2 shadow-2xl">
+                    <!-- Corner Ornaments -->
+                    <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-rjs-gold"></div>
+                    <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-rjs-gold"></div>
+                    <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-rjs-gold"></div>
+                    <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-rjs-gold"></div>
+
+                    <div class="bg-[#050608] border border-white/10 h-full">
+                        <!-- Window Header -->
+                        <div class="bg-[#1a1d2d] px-4 py-3 flex items-center justify-between border-b border-white/10">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-4 h-4 text-gray-500">
+                                    <use href="#eagle-crest" />
+                                </svg>
+                                <span class="text-xs text-gray-400 font-mono uppercase">main.rjs</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
+                                <div class="w-2 h-2 rounded-full bg-white/20"></div>
                             </div>
                         </div>
 
-                        <div class="hidden md:flex items-center gap-8">
-                            <a href="#features"
-                                class="text-white hover:text-yellow-300 transition font-semibold">Возможности</a>
-                            <a href="#mechanics"
-                                class="text-white hover:text-yellow-300 transition font-semibold">Механика</a>
-                            <a href="#herald"
-                                class="text-white hover:text-yellow-300 transition font-semibold">Вестник</a>
-                            <a href="/rjs/doc/"
-                                class="text-white hover:text-yellow-300 transition font-semibold">Документация</a>
-                            <a href="https://github.com/nike-17/rjs" target="_blank"
-                                class="px-4 py-2 rounded-lg font-bold"
-                                style="background: var(--gold-accent); color: var(--dark-bg);">GitHub</a>
-                        </div>
-                    </div>
-        </nav>
+                        <div class="grid grid-cols-2 h-[450px]">
+                            <!-- Source (Russian) -->
+                            <div class="border-r border-white/10 p-6 overflow-auto font-mono text-sm bg-[#0f111a]">
+                                <div class="text-[10px] text-rjs-gold/50 mb-4 uppercase tracking-widest text-center">-
+                                    Исходный Текст -</div>
+                                <pre id="sourceCode"
+                                    class="text-gray-300 leading-relaxed outline-none whitespace-pre-wrap"
+                                    contenteditable="true">
+<span class="text-rjs-gold font-bold">константа</span> Империя = <span class="text-rjs-blue">истина</span>;
+<span class="text-rjs-gold font-bold">переменная</span> казна = 1000;
 
-        <!-- Hero Section -->
-        <section class="min-h-screen flex items-center justify-center relative pt-20 px-4">
-            <svg class="eagle-watermark w-full h-full" style="top: 50%; left: 50%; transform: translate(-50%,
-                -50%);" viewBox="0 0 200 200">
-                <path d="M100 50 L120 70 L140 60 L130 80 L140 100 L120 90 L100 110 L80 90 L60 100 L70 80 L60 60 L80 70
-                    Z" fill="var(--imperial-gold)" />
-                <path d="M100 70 L110 80 L120 75 L115 85 L120 95 L110 90 L100 100 L90 90 L80 95 L85 85 L80 75 L90 80
-                    Z" fill="var(--imperial-red)" />
-            </svg>
-
-            <div class="max-w-5xl mx-auto text-center relative z-10">
-                <div class="inline-block px-4 py-2 mb-6 rounded-full"
-                    style="background: linear-gradient(135deg, var(--russian-red), var(--russian-blue)); border: 2px solid var(--gold-accent);">
-                    <span
-                        style="color: var(--russian-white); font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">✓
-                        Одобрено для 1С:Предприятие</span>
-                </div>
-
-                <h1 class="text-6xl md:text-8xl font-imperial font-bold mb-6 fade-in-up"
-                    style="color: var(--gold-accent); text-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 20px rgba(213, 43, 30, 0.4);">
-                    Великий Русский Код
-                </h1>
-
-                <p class="text-xl md:text-2xl mb-4 font-playfair fade-in-up"
-                    style="animation-delay: 0.2s; color: var(--text-primary); font-weight: 600;">
-                    Суверенная Технология Цифровой Эпохи
-                </p>
-
-                <p class="text-lg mb-8 max-w-3xl mx-auto fade-in-up"
-                    style="animation-delay: 0.3s; color: var(--text-secondary); font-weight: 500;">
-                    Пишите JavaScript на русском. Оптимизировано для процессоров Эльбрус и Байкал.
-                    <br>Ноль зависимостей. Ноль уязвимостей. Максимальный суверенитет.
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up" style="animation-delay:
-                    0.4s;">
-                    <a href="#playground" class="btn-royal inline-block">Попробовать</a>
-                    <a href="https://github.com/nike-17/rjs" target="_blank" class="btn-gold inline-block">Архивы
-                        GitHub</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="py-20 px-4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-16 animate-on-scroll"
-                    style="color: var(--gold-accent); text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);">
-                    Имперские Возможности
-                </h2>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="imperial-frame animate-on-scroll">
-                        <div class="text-5xl mb-4">🛡️</div>
-                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Безопасность</h3>
-                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Ноль уязвимостей. В
-                            отличие от npm-пакетов с тысячами зависимостей, RJS чист и суверенен.</p>
-                        <div class="text-sm font-bold" style="color: var(--russian-red);">0 CVE • 0 Зависимостей</div>
-                    </div>
-
-                    <div class="imperial-frame animate-on-scroll" style="animation-delay: 0.1s;">
-                        <div class="text-5xl mb-4">⚡</div>
-                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Величие</h3>
-                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Оптимизировано для
-                            отечественного железа. Безупречно работает на процессорах Эльбрус и Байкал.</p>
-                        <div class="text-sm font-bold" style="color: var(--russian-blue);">100% Российская Совместимость
-                        </div>
-                    </div>
-
-                    <div class="imperial-frame animate-on-scroll" style="animation-delay: 0.2s;">
-                        <div class="text-5xl mb-4">🧠</div>
-                        <h3 class="text-2xl font-bold mb-3" style="color: var(--gold-accent);">Ясность</h3>
-                        <p class="mb-4" style="color: var(--text-secondary); font-weight: 500;">Снижение когнитивной
-                            нагрузки. Пишите код на родном языке. Думайте по-русски, кодируйте по-русски.</p>
-                        <div class="text-sm font-bold" style="color: var(--russian-white);">Преимущество Родного Языка
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Live Playground -->
-        <section id="playground" class="py-20 px-4" style="background: rgba(0, 42, 128, 0.05);">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-4 animate-on-scroll"
-                    style="color: var(--gold-accent); text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);">
-                    Имперская Кузница
-                </h2>
-                <p class="text-center mb-12 animate-on-scroll" style="color: var(--text-secondary); font-weight: 500;">
-                    Преобразуйте русский код в JavaScript в реальном времени</p>
-
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="code-editor animate-on-scroll">
-                        <div class="code-header">
-                            <div class="code-dot" style="background: #ff5f56;"></div>
-                            <div class="code-dot" style="background: #ffbd2e;"></div>
-                            <div class="code-dot" style="background: #27c93f;"></div>
-                            <span class="text-sm font-bold"
-                                style="color: var(--gold-accent); margin-left: 1rem;">Русский JS</span>
-                        </div>
-                        <textarea id="russian-code" class="w-full h-64 p-4 font-mono" placeholder="Введите код на
-                            русском..." spellcheck="false">функция приветствие(имя) {
-  константа сообщение = "Здравствуйте, " + имя;
-  вернуть сообщение;
+<span class="text-rjs-red font-bold">функция</span> собратьНалог(сумма) {
+  <span class="text-rjs-blue font-bold">если</span> (казна < 5000) {
+    казна += сумма;
+    <span class="text-white">консоль</span>.лог("Казна пополнена: " + сумма);
+  } <span class="text-rjs-blue font-bold">иначе</span> {
+    <span class="text-white">консоль</span>.лог("Казна полна, милорд!");
+  }
+  <span class="text-rjs-red font-bold">вернуть</span> казна;
 }
 
-казна = приветствие("Товарищ");</textarea>
-                    </div>
+<span class="text-gray-500">// Ежегодный сбор</span>
+<span class="text-rjs-blue font-bold">пока</span> (казна < 3000) {
+  собратьНалог(500);
+}
+</pre>
+                            </div>
 
-                    <div class="code-editor animate-on-scroll" style="animation-delay: 0.1s;">
-                        <div class="code-header">
-                            <div class="code-dot" style="background: #ff5f56;"></div>
-                            <div class="code-dot" style="background: #ffbd2e;"></div>
-                            <div class="code-dot" style="background: #27c93f;"></div>
-                            <span class="text-sm" style="color: var(--imperial-gold); margin-left: 1rem;">JavaScript
-                                ES6</span>
+                            <!-- Output (JS) -->
+                            <div class="p-6 overflow-auto font-mono text-sm bg-[#0a0b10] relative">
+                                <div class="text-[10px] text-gray-600 mb-4 uppercase tracking-widest text-center">-
+                                    Машинный Код -</div>
+                                <pre id="outputCode"
+                                    class="text-green-500/80 leading-relaxed transition-all duration-300 opacity-50 blur-[1px] whitespace-pre-wrap"></pre>
+                                <!-- Overlay while blurred -->
+                                <div id="codeOverlay"
+                                    class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <svg class="w-24 h-24 text-white/5 animate-spin-slow">
+                                        <use href="#eagle-crest" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                        <textarea id="js-output" class="w-full h-64 p-4 font-mono" readonly style="color:
-                            #4ade80;"></textarea>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Stats Banner -->
-        <section class="stats-banner py-16 px-4 relative">
-            <div class="max-w-7xl mx-auto relative z-10">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="animate-on-scroll">
-                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="700">0
-                        </div>
-                        <div class="text-sm text-gray-300">Карма Habr</div>
+    <!-- Stats & Cases (Banner Style) -->
+    <section class="py-20 bg-rjs-red relative overflow-hidden border-y-4 border-double border-rjs-gold">
+        <div
+            class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-20 mix-blend-multiply">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/20">
+                <div class="p-4">
+                    <div class="text-5xl font-display text-white mb-2 counter drop-shadow-md" data-target="700">0</div>
+                    <div class="text-xs text-rjs-gold uppercase tracking-widest font-serif">Кармы Habr</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-5xl font-display text-white mb-2 counter drop-shadow-md" data-target="3000">0</div>
+                    <div class="text-xs text-rjs-gold uppercase tracking-widest font-serif">Одобрений Pikabu</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-5xl font-display text-white mb-2 counter drop-shadow-md" data-target="500">0</div>
+                    <div class="text-xs text-rjs-gold uppercase tracking-widest font-serif">Звезд GitHub</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-5xl font-display text-white mb-2 counter drop-shadow-md" data-target="18000">0
                     </div>
-                    <div class="animate-on-scroll" style="animation-delay: 0.1s;">
-                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="3000">0
-                        </div>
-                        <div class="text-sm text-gray-300">Лайки Pikabu</div>
-                    </div>
-                    <div class="animate-on-scroll" style="animation-delay: 0.2s;">
-                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="500">0
-                        </div>
-                        <div class="text-sm text-gray-300">Звёзды GitHub</div>
-                    </div>
-                    <div class="animate-on-scroll" style="animation-delay: 0.3s;">
-                        <div class="text-5xl font-bold mb-2" style="color: var(--imperial-gold);" data-count="18000">0
-                        </div>
-                        <div class="text-sm text-gray-300">Подписей Петиции</div>
-                    </div>
+                    <div class="text-xs text-rjs-gold uppercase tracking-widest font-serif">Подписей</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Press/Herald Section -->
-        <section id="herald" class="py-20 px-4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-4 animate-on-scroll"
-                    style="color: var(--imperial-gold);">
-                    Имперский Вестник
-                </h2>
-                <p class="text-center text-gray-400 mb-12 animate-on-scroll">Что говорят о RJS</p>
-
-                <div class="grid md:grid-cols-3 gap-6">
-                    <a href="#" class="press-card animate-on-scroll block">
-                        <div class="text-3xl mb-3">📰</div>
-                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">Habr</h3>
-                        <p class="text-gray-300 text-sm mb-3">"Революционный подход к суверенной разработке ПО"</p>
-                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
-                    </a>
-
-                    <a href="#" class="press-card animate-on-scroll block" style="animation-delay: 0.1s;">
-                        <div class="text-3xl mb-3">🎯</div>
-                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">Pikabu</h3>
-                        <p class="text-gray-300 text-sm mb-3">"Наконец-то язык, говорящий на нашем языке"</p>
-                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
-                    </a>
-
-                    <a href="#" class="press-card animate-on-scroll block" style="animation-delay: 0.2s;">
-                        <div class="text-3xl mb-3">💼</div>
-                        <h3 class="text-xl font-bold mb-2" style="color: var(--imperial-gold);">VC.ru</h3>
-                        <p class="text-gray-300 text-sm mb-3">"Будущее российской технологической независимости"</p>
-                        <div class="text-xs" style="color: var(--imperial-gold);">Читать статью →</div>
-                    </a>
-                </div>
+    <!-- Media & Press -->
+    <section id="media" class="py-24 bg-[#0f111a]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-4 mb-12">
+                <div class="h-px w-16 bg-gray-700"></div>
+                <h2 class="text-3xl font-display uppercase tracking-widest text-white">Имперский Вестник</h2>
+                <div class="h-px w-16 bg-gray-700"></div>
             </div>
-        </section>
 
-        <!-- Installation Section -->
-        <section id="mechanics" class="py-20 px-4" style="background: rgba(0, 42, 128, 0.05);">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-12 animate-on-scroll"
-                    style="color: var(--imperial-gold);">
-                    Установка
-                </h2>
-
-                <div class="terminal animate-on-scroll">
-                    <div class="terminal-line">
-                        <span class="terminal-prompt">$</span>
-                        <span id="install-command"></span>
-                        <span class="cursor">_</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- News Card 1 -->
+                <a href="https://habr.com/ru/articles/966854/" target="_blank"
+                    class="group relative bg-[#141620] p-8 border border-white/5 hover:border-rjs-gold transition-all">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-rjs-gold/50"></div>
+                    <div class="text-center mb-6">
+                        <span
+                            class="text-xs text-rjs-blue font-bold uppercase tracking-widest border border-rjs-blue px-2 py-1">Habr</span>
                     </div>
-                </div>
-            </div>
-        </section>
+                    <h3
+                        class="text-xl font-serif text-white text-center mb-4 group-hover:text-rjs-gold transition-colors">
+                        Русский JavaScript захватывает мир</h3>
+                    <p class="text-gray-500 text-sm text-center font-serif italic">"Беспрецедентный рост патриотизма в
+                        IT секторе..."</p>
+                </a>
 
-        <!-- Testimonials -->
-        <section class="py-20 px-4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-imperial font-bold text-center mb-12 animate-on-scroll"
-                    style="color: var(--imperial-gold);">
-                    Голоса Империи
-                </h2>
-
-                <div class="grid md:grid-cols-3 gap-6">
-                    <div class="testimonial-card animate-on-scroll">
-                        <div class="text-4xl mb-4">👨‍💼</div>
-                        <p class="text-gray-300 mb-4 italic">"Наконец-то могу писать код на родном языке.
-                            Производительность выросла на 40%."</p>
-                        <div class="text-sm" style="color: var(--imperial-gold);">— Разработчик 1С, Москва</div>
+                <!-- News Card 2 -->
+                <a href="https://pikabu.ru/story/russkiy_javascript_zakhvatyivaet_mir_13408343" target="_blank"
+                    class="group relative bg-[#141620] p-8 border border-white/5 hover:border-rjs-gold transition-all">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-rjs-gold/50"></div>
+                    <div class="text-center mb-6">
+                        <span
+                            class="text-xs text-[#84c752] font-bold uppercase tracking-widest border border-[#84c752] px-2 py-1">Pikabu</span>
                     </div>
+                    <h3
+                        class="text-xl font-serif text-white text-center mb-4 group-hover:text-rjs-gold transition-colors">
+                        Глас Народа: Резонанс</h3>
+                    <p class="text-gray-500 text-sm text-center font-serif italic">"Тысячи разработчиков присягнули на
+                        верность новому синтаксису..."</p>
+                </a>
 
-                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.1s;">
-                        <div class="text-4xl mb-4">🎓</div>
-                        <p class="text-gray-300 mb-4 italic">"Это именно то, что нужно для обучения программированию
-                            в школах."</p>
-                        <div class="text-sm" style="color: var(--imperial-gold);">— Министерство Образования</div>
+                <!-- News Card 3 -->
+                <a href="https://vc.ru/dev/2539456-russkiy-javascript-rjs-uderzhanie-talantov-i-effektivnost-v-it"
+                    target="_blank"
+                    class="group relative bg-[#141620] p-8 border border-white/5 hover:border-rjs-gold transition-all">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-8 bg-rjs-gold/50"></div>
+                    <div class="text-center mb-6">
+                        <span
+                            class="text-xs text-rjs-red font-bold uppercase tracking-widest border border-rjs-red px-2 py-1">VC.ru</span>
                     </div>
-
-                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.2s;">
-                        <div class="text-4xl mb-4">🔒</div>
-                        <p class="text-gray-300 mb-4 italic">"Безопасность и суверенитет в одном пакете.
-                            Впечатляет."</p>
-                        <div class="text-sm" style="color: var(--imperial-gold);">— Анонимно, Яндекс</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="py-32 px-4 relative overflow-hidden">
-            <svg class="eagle-watermark w-full h-full" style="top: 50%; left: 50%; transform: translate(-50%, -50%);
-                opacity: 0.05;" viewBox="0 0 400 400">
-                <path d="M200 100 L240 140 L280 120 L260 160 L280 200 L240 180 L200 220 L160 180 L120 200 L140 160 L120
-                    120 L160 140 Z" fill="var(--imperial-gold)" stroke="var(--imperial-red)" stroke-width="4" />
-                <path d="M200 140 L220 160 L240 150 L230 170 L240 190 L220 180 L200 200 L180 180 L160 190 L170 170 L160
-                    150 L180 160 Z" fill="var(--imperial-red)" />
-            </svg>
-
-            <div class="max-w-4xl mx-auto text-center relative z-10">
-                <h2 class="text-5xl md:text-6xl font-imperial font-bold mb-6 animate-on-scroll" style="color:
-                    var(--imperial-gold);">
-                    Ваш Код — Ваша Крепость
-                </h2>
-                <p class="text-xl text-gray-300 mb-8 animate-on-scroll">
-                    Присоединяйтесь к движению за технологический суверенитет
-                </p>
-                <a href="https://chng.it/bYLDQ6tMdR" target="_blank" class="btn-royal inline-block text-xl px-12
-                    py-4 animate-on-scroll">
-                    Подписать Петицию
+                    <h3
+                        class="text-xl font-serif text-white text-center mb-4 group-hover:text-rjs-gold transition-colors">
+                        Экономическое Чудо</h3>
+                    <p class="text-gray-500 text-sm text-center font-serif italic">"Анализ эффективности внедрения в
+                        госкорпорации..."</p>
                 </a>
             </div>
-        </section>
 
-        <!-- Footer -->
-        <footer class="py-8 px-4 border-t" style="border-color: rgba(212, 175, 55, 0.2);">
-            <div class="max-w-7xl mx-auto text-center">
-                <p class="text-gray-400 mb-2">© 2025 RJS - Русский JavaScript Транспилятор</p>
-                <p class="text-sm" style="color: var(--imperial-gold);">Сделано в России ☦️</p>
+            <!-- Extra Links List -->
+            <div
+                class="mt-12 flex flex-wrap justify-center gap-6 text-sm font-serif text-gray-500 border-t border-white/5 pt-6">
+                <a href="https://cont.ws/@marazmo/3158141" class="hover:text-rjs-gold flex items-center gap-2"><span
+                        class="text-rjs-gold">❧</span> Читать на Cont.ws</a>
+                <a href="https://github.com/nike-17/rjs" class="hover:text-rjs-gold flex items-center gap-2"><span
+                        class="text-rjs-gold">❧</span> Исходный Код</a>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
 
+    <!-- Installation (Command Line) -->
+    <section class="py-20 bg-black relative border-t border-rjs-gold/20">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <h2 class="text-rjs-gold font-display uppercase tracking-widest text-xl">Внедрение</h2>
+            </div>
+
+            <div class="bg-[#0a0a0a] border border-white/10 p-1 rounded-lg shadow-2xl">
+                <div class="bg-black border border-white/5 p-6 rounded font-mono text-sm md:text-base">
+                    <div class="flex gap-2 mb-4 opacity-30">
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                        <div class="w-3 h-3 rounded-full bg-white"></div>
+                    </div>
+                    <div class="text-gray-300">
+                        <span class="text-rjs-gold">root@empire:~$</span> <span id="typewriter"></span><span
+                            class="animate-pulse text-rjs-red">_</span>
+                    </div>
+                    <div id="install-output" class="mt-4 text-gray-500 hidden border-l-2 border-rjs-blue pl-3">
+                        <div class="mb-1">[ ЗАГРУЗКА ПАКЕТОВ... ]</div>
+                        <div class="w-full bg-gray-800 h-1 mb-2">
+                            <div class="bg-rjs-gold h-full w-full animate-[width_1s_ease-out]"></div>
+                        </div>
+                        <span class="text-white">Готово.</span> RJS интегрирован в систему.<br>
+                        <span class="text-rjs-gold italic">Служу Отечеству!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials (Quotes) -->
+    <section class="py-24 bg-[#08090c] relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Quote 1 -->
+                <div class="relative pt-10">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-rjs-gold/20 font-serif">"</div>
+                    <p class="text-center text-gray-300 font-serif italic mb-6 leading-loose">
+                        «Наконец-то бабушки-бухгалтеры кодят без слёз. Теперь отчетность в 1С пишется быстрее, чем
+                        варится борщ.»
+                    </p>
+                    <div class="text-center border-t border-white/10 pt-4">
+                        <div class="font-display text-white uppercase tracking-wider text-sm">Валентина Петровна</div>
+                        <div class="text-xs text-rjs-blue mt-1">Старший Разработчик 1С</div>
+                    </div>
+                </div>
+                <!-- Quote 2 -->
+                <div class="relative pt-10">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-rjs-gold/20 font-serif">"</div>
+                    <p class="text-center text-gray-300 font-serif italic mb-6 leading-loose">
+                        «Школьники решают задачи ЕГЭ за 10 минут. Физруки уже ведут информатику, потому что синтаксис
+                        понятен интуитивно.»
+                    </p>
+                    <div class="text-center border-t border-white/10 pt-4">
+                        <div class="font-display text-white uppercase tracking-wider text-sm">Минпросвещения</div>
+                        <div class="text-xs text-rjs-red mt-1">Неофициальный источник</div>
+                    </div>
+                </div>
+                <!-- Quote 3 -->
+                <div class="relative pt-10">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 text-6xl text-rjs-gold/20 font-serif">"</div>
+                    <p class="text-center text-gray-300 font-serif italic mb-6 leading-loose">
+                        «Сначала я смеялся, а потом переписал весь бэкенд на RJS. Когнитивная нагрузка упала, зарплата
+                        выросла.»
+                    </p>
+                    <div class="text-center border-t border-white/10 pt-4">
+                        <div class="font-display text-white uppercase tracking-wider text-sm">Аноним</div>
+                        <div class="text-xs text-gray-500 mt-1">Яндекс</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA & Petition -->
+    <section class="py-24 relative overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0f111a] to-rjs-red/30"></div>
+        <!-- Double headed eagle watermark centered -->
+        <svg
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] text-black opacity-20 pointer-events-none">
+            <use href="#eagle-crest" />
+        </svg>
+
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-display text-white mb-8 drop-shadow-lg">
+                Твой Код — Твоя Крепость
+            </h2>
+            <p class="text-xl text-gray-300 mb-12 font-serif italic max-w-2xl mx-auto">
+                Присоединяйся к 18,000+ патриотам. Поставь подпись за будущее отечественного программирования.
+            </p>
+
+            <div class="flex flex-col items-center gap-6">
+                <a href="https://chng.it/bYLDQ6tMdR" target="_blank"
+                    class="group relative inline-flex items-center justify-center px-12 py-6 bg-transparent overflow-hidden transition-all">
+                    <!-- Ornate Button Borders -->
+                    <span
+                        class="absolute top-0 left-0 w-full h-full border border-rjs-gold transform scale-95 group-hover:scale-100 transition-transform duration-300"></span>
+                    <span
+                        class="absolute top-0 left-0 w-full h-full border border-rjs-gold transform scale-100 opacity-50 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"></span>
+
+                    <span
+                        class="relative flex items-center gap-3 text-xl font-display uppercase tracking-widest text-white group-hover:text-rjs-gold transition-colors">
+                        <i data-lucide="feather" class="w-5 h-5"></i>
+                        Подписать Петицию
+                    </span>
+                </a>
+
+                <div class="text-sm text-gray-400 font-serif flex items-center gap-2">
+                    <span class="h-px w-8 bg-gray-600"></span>
+                    Уже подписали: <span class="text-rjs-gold font-bold">18,420</span> граждан
+                    <span class="h-px w-8 bg-gray-600"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050608] py-16 border-t border-rjs-gold/20">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col items-center md:items-start">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg class="w-6 h-6 text-rjs-gold">
+                        <use href="#eagle-crest" />
+                    </svg>
+                    <div class="text-2xl font-display text-white tracking-widest">RJS</div>
+                </div>
+                <div class="text-xs text-gray-600 font-serif uppercase tracking-[0.2em]">Сделано в России • 2025</div>
+            </div>
+
+            <div class="flex gap-8">
+                <a href="https://github.com/nike-17/rjs" class="text-gray-500 hover:text-rjs-gold transition-colors"><i
+                        data-lucide="github"></i></a>
+                <a href="https://habr.com/ru/articles/966854/"
+                    class="text-gray-500 hover:text-rjs-blue transition-colors font-bold text-xs border border-gray-700 px-2 py-1 rounded hover:border-rjs-blue">HABR</a>
+                <a href="#" class="text-gray-500 hover:text-rjs-red transition-colors"><i data-lucide="mail"></i></a>
+            </div>
+
+            <div class="text-gray-600 text-xs font-serif flex flex-col md:flex-row items-center gap-2">
+                <span>Разработано с Душой</span>
+                <span class="hidden md:inline text-rjs-gold">•</span>
+                <span class="text-rjs-gold text-lg">☦️</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
     <script>
-        // Matrix Rain Animation
-        const canvas = document.getElementById('matrix-canvas');
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Background Matrix Effect (Gold/White/Imperial)
+        const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        const russianKeywords = ['функция', 'вернуть', 'если', 'иначе', 'для', 'пока', 'константа', 'переменная', 'казна', 'истина', 'ложь'];
-        const columns = Math.floor(canvas.width / 20);
-        const drops = Array(columns).fill(1);
-        const colors = ['#ffffff', '#0039a6', '#d52b1e']; // Tricolor
+        const words = ['СУВЕРЕНИТЕТ', 'ВЛАСТЬ', 'КОД', 'ИМПЕРИЯ', 'ЯЗЫК', 'СИЛА', 'ФУНКЦИЯ', 'УКАЗ'];
+        const columns = Math.floor(width / 25);
+        const drops = [];
+        // Gold, Red, Blue (Darker shades)
+        const colors = ['#d4af37', '#6b0f0f', '#0f2c6b'];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(15, 17, 26, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(15, 17, 26, 0.1)';
+            ctx.fillRect(0, 0, width, height);
 
-            ctx.font = '14px JetBrains Mono';
+            ctx.font = '12px "Ruslan Display"'; // Using Imperial Font
 
             for (let i = 0; i < drops.length; i++) {
-                const text = russianKeywords[Math.floor(Math.random() * russianKeywords.length)];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                ctx.fillStyle = color;
-                ctx.fillText(text, i * 20, drops[i] * 20);
+                const text = words[Math.floor(Math.random() * words.length)];
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.fillText(text, i * 25, drops[i] * 20);
 
-                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                if (drops[i] * 20 > height && Math.random() > 0.98) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
         }
 
-        setInterval(drawMatrix, 50);
+        setInterval(drawMatrix, 60);
 
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
 
-        // Code Playground Translation
-        const russianCode = document.getElementById('russian-code');
-        const jsOutput = document.getElementById('js-output');
 
-        const translations = {
-            'функция': 'function',
-            'вернуть': 'return',
-            'константа': 'const',
-            'переменная': 'let',
-            'казна': 'treasury',
-            'если': 'if',
-            'иначе': 'else',
-            'для': 'for',
-            'пока': 'while',
-            'истина': 'true',
-            'ложь': 'false'
-        };
+        // 2. Transpiler Demo Logic
+        function runDemo() {
+            const source = document.getElementById('sourceCode').innerText;
+            const outputElement = document.getElementById('outputCode');
+            const overlay = document.getElementById('codeOverlay');
 
-        let typewriterTimeout;
+            outputElement.classList.remove('blur-[1px]', 'opacity-50');
+            overlay.style.display = 'none';
+            outputElement.innerHTML = '';
 
-        function translateCode(text) {
-            let translated = text;
-            for (const [russian, english] of Object.entries(translations)) {
-                const regex = new RegExp(russian, 'g');
-                translated = translated.replace(regex, english);
+            // Imperial Dictionary
+            const map = {
+                'переменная': 'let',
+                'пусть': 'let',
+                'константа': 'const',
+                'функция': 'function',
+                'вернуть': 'return',
+                'если': 'if',
+                'иначе': 'else',
+                'пока': 'while',
+                'консоль': 'console',
+                'лог': 'log',
+                'истина': 'true',
+                'ложь': 'false',
+
+                // Context vars
+                'Империя': 'Empire',
+                'казна': 'treasury',
+                'собратьНалог': 'collectTax',
+                'сумма': 'amount',
+                'Казна пополнена: ': 'Treasury replenished: ',
+                'Казна полна, милорд!': 'Treasury full, my liege!',
+                '// Ежегодный сбор': '// Annual collection'
+            };
+
+            let translated = source;
+            Object.keys(map).forEach(key => {
+                const regex = new RegExp(key, 'g');
+                translated = translated.replace(regex, map[key]);
+            });
+
+            let i = 0;
+            function typeWriter() {
+                if (i < translated.length) {
+                    outputElement.innerHTML += translated.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 15);
+                }
             }
-            return translated;
+            typeWriter();
         }
 
-        function typewriterEffect(text, element, index = 0) {
-            if (index < text.length) {
-                element.value = text.substring(0, index + 1);
-                typewriterTimeout = setTimeout(() => typewriterEffect(text, element, index + 1), 20);
-            }
-        }
-
-        russianCode.addEventListener('input', () => {
-            clearTimeout(typewriterTimeout);
-            const translated = translateCode(russianCode.value);
-            jsOutput.value = '';
-            typewriterEffect(translated, jsOutput);
-        });
-
-        // Initial translation
-        const initialTranslation = translateCode(russianCode.value);
-        typewriterEffect(initialTranslation, jsOutput);
-
-        // Terminal Typewriter
-        const installCommand = 'npm i russian-js-transpiler';
-        const terminalElement = document.getElementById('install-command');
-        let terminalIndex = 0;
-
-        function typeInstallCommand() {
-            if (terminalIndex < installCommand.length) {
-                terminalElement.textContent += installCommand.charAt(terminalIndex);
-                terminalIndex++;
-                setTimeout(typeInstallCommand, 100);
-            }
-        }
-
-        // Scroll Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
+        // 3. Stats Counter
+        const observerOptions = { threshold: 0.5 };
+        const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000;
+                        const increment = target / (duration / 16);
 
-                    // Trigger terminal animation
-                    if (entry.target.querySelector('#install-command')) {
-                        typeInstallCommand();
-                    }
-
-                    // Trigger counter animations
-                    if (entry.target.querySelector('[data-count]')) {
-                        entry.target.querySelectorAll('[data-count]').forEach(counter => {
-                            const target = parseInt(counter.getAttribute('data-count'));
-                            let current = 0;
-                            const increment = target / 100;
-                            const timer = setInterval(() => {
-                                current += increment;
-                                if (current >= target) {
-                                    counter.textContent = target.toLocaleString() + '+';
-                                    clearInterval(timer);
-                                } else {
-                                    counter.textContent = Math.floor(current).toLocaleString();
-                                }
-                            }, 20);
-                        });
-                    }
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current);
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target; // No plus sign for cleaner imperial look
+                            }
+                        };
+                        updateCounter();
+                    });
+                    statsObserver.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
+        const statsSection = document.querySelector('.counter')?.closest('section');
+        if (statsSection) statsObserver.observe(statsSection);
+
+
+        // 4. Terminal Logic
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const text = "npm i russian-js-transpiler";
+                    const el = document.getElementById('typewriter');
+                    const output = document.getElementById('install-output');
+                    let i = 0;
+
+                    el.innerHTML = "";
+                    output.classList.add('hidden');
+
+                    function type() {
+                        if (i < text.length) {
+                            el.innerHTML += text.charAt(i);
+                            i++;
+                            setTimeout(type, 80);
+                        } else {
+                            setTimeout(() => {
+                                output.classList.remove('hidden');
+                            }, 500);
+                        }
+                    }
+                    type();
+                    terminalObserver.unobserve(entry.target);
+                }
+            });
         });
+
+        const termSection = document.getElementById('typewriter')?.closest('section');
+        if (termSection) terminalObserver.observe(termSection);
+
+        // 5. Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Auto-run demo logic
+        setTimeout(() => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        runDemo();
+                        observer.disconnect();
+                    }
+                })
+            });
+            const pg = document.getElementById('playground');
+            if (pg) observer.observe(pg);
+        }, 1000);
+
+        // Initialize AOS style animations manually for scroll
+        document.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        });
+
     </script>
 </body>
 
-</html>"
+</html>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="32" height="32">
+  <rect width="200" height="200" fill="#0f111a"/>
+  <!-- Simplified Double-Headed Eagle Heraldic Design -->
+  <g fill="#d4af37" stroke="#d4af37" stroke-width="2">
+    <!-- Crown at top -->
+    <path d="M100,20 L105,15 L110,20 L105,25 Z M90,20 L95,15 L100,20 L95,25 Z" fill="#d4af37"/>
+    
+    <!-- Left Eagle Head -->
+    <circle cx="70" cy="60" r="12"/>
+    <path d="M65,55 L60,50 M75,55 L80,50" stroke-width="3" fill="none"/>
+    <circle cx="68" cy="58" r="2" fill="#0f111a"/>
+    
+    <!-- Right Eagle Head -->
+    <circle cx="130" cy="60" r="12"/>
+    <path d="M125,55 L120,50 M135,55 L140,50" stroke-width="3" fill="none"/>
+    <circle cx="132" cy="58" r="2" fill="#0f111a"/>
+    
+    <!-- Central Body -->
+    <ellipse cx="100" cy="100" rx="25" ry="35" fill="#d4af37"/>
+    
+    <!-- Left Wing -->
+    <path d="M75,80 Q50,70 40,90 Q35,110 50,120 L75,110 Z" fill="#d4af37"/>
+    
+    <!-- Right Wing -->
+    <path d="M125,80 Q150,70 160,90 Q165,110 150,120 L125,110 Z" fill="#d4af37"/>
+    
+    <!-- Shield/Emblem in center -->
+    <circle cx="100" cy="100" r="15" fill="#b30000" stroke="#d4af37" stroke-width="2"/>
+    <text x="100" y="108" font-family="serif" font-size="18" font-weight="bold" fill="#d4af37" text-anchor="middle">RJS</text>
+    
+    <!-- Tail feathers -->
+    <path d="M85,130 L80,160 M100,135 L100,165 M115,130 L120,160" stroke-width="4" fill="none"/>
+  </g>
+</svg>

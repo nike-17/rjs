@@ -18,6 +18,22 @@ export default defineConfig({
   // Ignore dead links during build
   ignoreDeadLinks: true,
 
+  // Google Analytics
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-GFBT4BWJ3C' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GFBT4BWJ3C');`
+    ]
+  ],
+
   themeConfig: {
     nav: [
       { text: 'Начало работы', link: '/doc/getting-started' },

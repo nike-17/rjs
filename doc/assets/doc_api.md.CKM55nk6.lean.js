@@ -1,0 +1,2 @@
+import{_ as s,c as i,o as a,ag as n}from"./chunks/framework.BN34RoX5.js";const e=JSON.parse('{"title":"API","description":"","frontmatter":{},"headers":[],"relativePath":"doc/api.md","filePath":"doc/api.md"}');const l=s({name:"doc/api.md"},[["render",function(s,e,l,p,t,r){return a(),i("div",null,[...e[0]||(e[0]=[n("",25)])])}]]);export{e as __pageData,l as default};
+//# sourceMappingURL=doc_api.md.CKM55nk6.js.map

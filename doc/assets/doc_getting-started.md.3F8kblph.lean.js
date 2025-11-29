@@ -1,0 +1,2 @@
+import{_ as s,c as i,o as a,ag as n}from"./chunks/framework.BN34RoX5.js";const l=JSON.parse('{"title":"Начало работы","description":"","frontmatter":{},"headers":[],"relativePath":"doc/getting-started.md","filePath":"doc/getting-started.md"}');const p=s({name:"doc/getting-started.md"},[["render",function(s,l,p,e,h,t){return a(),i("div",null,[...l[0]||(l[0]=[n("",38)])])}]]);export{l as __pageData,p as default};
+//# sourceMappingURL=doc_getting-started.md.3F8kblph.js.map

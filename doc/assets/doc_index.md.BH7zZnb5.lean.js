@@ -1,2 +1,0 @@
-import{_ as s,c as i,o as a,ag as n}from"./chunks/framework.uhJXnvLe.js";const l=JSON.parse('{"title":"Russian JS (RJS) 🇷🇺","description":"","frontmatter":{},"headers":[],"relativePath":"doc/index.md","filePath":"doc/index.md"}');const p=s({name:"doc/index.md"},[["render",function(s,l,p,h,k,t){return a(),i("div",null,[...l[0]||(l[0]=[n("",19)])])}]]);export{l as __pageData,p as default};
-//# sourceMappingURL=doc_index.md.BH7zZnb5.js.map

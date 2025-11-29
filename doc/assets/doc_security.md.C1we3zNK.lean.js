@@ -1,2 +1,0 @@
-import{_ as s,c as a,o as i,ag as n}from"./chunks/framework.uhJXnvLe.js";const l=JSON.parse('{"title":"Безопасность","description":"","frontmatter":{},"headers":[],"relativePath":"doc/security.md","filePath":"doc/security.md"}');const p=s({name:"doc/security.md"},[["render",function(s,l,p,e,h,t){return i(),a("div",null,[...l[0]||(l[0]=[n("",65)])])}]]);export{l as __pageData,p as default};
-//# sourceMappingURL=doc_security.md.C1we3zNK.js.map

@@ -54,6 +54,11 @@ jobs:
           # Copy landing page to root
           cp public/index.html deploy-temp/
           
+          # Copy static assets to root
+          cp public/favicon.svg deploy-temp/ || true
+          cp public/robots.txt deploy-temp/ || true
+          cp public/sitemap.xml deploy-temp/ || true
+          
           # Copy VitePress docs to /doc subdirectory
           cp -r docs/.vitepress/dist/* deploy-temp/doc/
           

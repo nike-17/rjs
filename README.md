@@ -416,3 +416,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Inspired by similar language transpilers and educational tools
 - Thanks to all contributors who have helped improve this project
+
+## VS Code Extension
+
+An official VS Code extension is available for working with RJS files directly inside Visual Studio Code.
+
+The extension allows you to:
+
+- Open `.rjs` files
+- Compile the current file using the `russian-js-transpiler`
+- Automatically generate the corresponding `.js` file
+
+Repository:
+https://github.com/WaleriaQA/rjs-vscode
